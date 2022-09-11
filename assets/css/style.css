@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+.table-divs {
+    display: table;
+}
+
+.table-cell-divs {
+    display: table-cell;
+
+    vertical-align: middle;
+    text-align: center;
+}
+
+.inline-block-divs {
+    display: inline-block;
+}
+
+header {
+    width: 100%;
+    height: 200px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+
+
+.main-section {
+    width: 100%;
+    height: 750px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.fighter-containers-outer {
+    width: 18%;
+    height: 700px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.fighter-containers-inner {
+    width: 100%;
+    height: 700px;
+}
+
+.fighter-boxes-outer {
+    width: 200px;
+    height: 680px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.fighter-boxes-inner {
+    width: 100%;
+    height: 680px;
+}
+
+.fighters {
+    width: 60%;
+    height: 14%;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;  
+}
+
+.player-fighters {
+    transform: skewX(40deg);
+}
+
+.cpu-fighters {
+    transform: skewX(40deg);
+}
+
+.fighters ~ p {
+    margin-bottom: 10px;
+}
+
+
+
+.bout-and-scoreboard-container-outer {
+    width: 60%;
+    height: 700px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.bout-and-scoreboard-container-inner {
+    width: 100%;
+    height: 700px;
+}
+
+
+.bout-box-outer {
+    width: 95%;
+    height: 440px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.bout-box-inner {
+    width: 100%;
+    height: 440px;
+}
+
+.contenders-box-outer {
+    width: 200px; /* previously 22% */
+    height: 430px;
+}
+
+.contenders-box-inner {
+    width: 100%;
+    height: 430px;
+}
+
+.left-contender-box {
+    margin-right: 10%;
+}
+
+.right-contender-box {
+    margin-left: 10%;
+}
+
+.contenders {
+    width: 100%;
+    height: 200px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+
+.vs-box-outer {
+    height: 430px;
+}
+
+.vs-box-inner {
+    height: 430px;
+}
+
+
+.scoreboard-box-outer {
+    width: 60%;
+    height: 240px;
+
+    border: 2px solid #444444;
+    box-sizing: border-box;
+}
+
+.scoreboard-box-inner {
+    width: 100%;
+    height: 240px;
+}
+
+.scoreboard-heading-outer {
+    width: 100%;
+    height: 80px;
+}
+
+.scoreboard-heading-inner {
+    width: 100%;
+    height: 80px;
+}
+
+.scoreboard-heading-inner > div {
+    vertical-align: top;
+}
+
+.scoreboard-placings-outer {
+    width: 50%;
+    height: 80px;
+}
+
+.scoreboard-placings-inner {
+    width: 100%;
+    height: 80px;
+}
+
+.scoreboard-placings-inner > div {
+    vertical-align: top;
+}
+
+
+/* Media Queries */
+
+@media screen and (max-width: 985px) {
+    .left-contender-box {
+        margin-right: 5%;
+    }
+
+    .right-contender-box {
+        margin-left: 5%;
+    }  
+}
+
+@media screen and (max-width: 878px) {
+    .contenders-box-player > div {
+        vertical-align: top;
+    }
+
+    .contenders-box-cpu > div {
+        vertical-align: bottom;
+    }
+
+    .left-contender-box {
+        margin-right: 0;
+        margin-top: 8px;
+    }
+
+    .right-contender-box {
+        margin-left: 0;
+        margin-bottom: 8px;
+    }  
+}
