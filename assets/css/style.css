@@ -78,6 +78,15 @@ section > .table-cell-divs {
     vertical-align: top;
 }
 
+button {
+    width: 200px;
+    height: 100px;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
 .title-container-outer {
     height: 100%;
 }
@@ -308,6 +317,10 @@ section > .table-cell-divs {
     height: 370px;
 }
 
+.contenders-box-inner > div {
+    vertical-align: bottom;
+}
+
 .left-contender-box {
     margin-right: 10%;
 }
@@ -329,6 +342,20 @@ section > .table-cell-divs {
     background-size: 100% 100%;
 
     position: relative;
+}
+
+.nameplates {
+    width: 100%;
+    height: 74px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 0 64px #000000, 0 0 40px #000000 inset;
+
+    background: url(../images/small-plate.jpg);
+    background-size: 100% 100%;
+
+    margin-bottom: 6px;
 }
 
 .vs-box-outer {
@@ -422,32 +449,120 @@ section > .table-cell-divs {
 
 /* Media Queries */
 
-@media screen and (max-width: 985px) {
+@media screen and (max-width: 1669px) {
     .left-contender-box {
         margin-right: 5%;
     }
 
     .right-contender-box {
         margin-left: 5%;
-    }  
+    }
 }
 
-@media screen and (max-width: 878px) {
-    .contenders-box-player > div {
-        vertical-align: top;
+@media screen and (max-width: 1487px) {
+    h3 {
+        width: 188px;
     }
+}
 
-    .contenders-box-cpu > div {
-        vertical-align: bottom;
-    }
-
+@media screen and (max-width: 1427px) {
     .left-contender-box {
         margin-right: 0;
-        margin-top: 8px;
     }
 
     .right-contender-box {
         margin-left: 0;
-        margin-bottom: 8px;
-    }  
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .scoreboard-box-outer {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 1258px) {
+    .bout-box-outer {
+        width: 90%;
+    }
+    
+    .fighter-containers-outer {
+        width: 226px;
+    }
+}
+
+@media screen and (max-width: 1205px) {
+    .player-fighters-container-outer {
+        position: absolute;
+        left: 100px;
+        z-index: 1;
+
+        border-right: 2px solid #6b0000;
+    }
+
+    .cpu-fighters-container-outer {
+        position: absolute;
+        right: 100px;
+        z-index: 1;
+
+        border-left: 2px solid #6b0000;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .bout-box-outer {
+        position: relative;
+    }
+    
+    .versus-text {
+        position: absolute;
+        right: 265px;
+        left: 265px;
+        bottom: 70px;
+        z-index: 1;
+    }
+
+    .vs-box-inner h2 {
+        color:#aaa9a9;
+    }
+}
+
+@media screen and (max-width: 1128px) {
+    .versus-text {
+        right: 140px;
+        left: 140px;
+    }
+}
+
+@media screen and (max-width: 1110px) {
+    .bout-and-scoreboard-container-outer {
+        width: 80%;
+        height: 1012px;
+    }
+
+    .bout-and-scoreboard-container-inner {
+        width: 100%;
+        height: 1012px;
+    }
+    
+    .bout-box-outer {
+        width: 40%;
+        height: 750px;
+
+        background: url(../images/bout-plate-vertical.jpg) no-repeat center center;
+        background-size: 100% 100%;
+    }
+
+    .bout-box-inner {
+        width: 100%;
+        height: 750px;
+    }
+
+    .contenders-box-outer {
+        height: 300px;
+    }
+
+    .contenders-box-inner {
+        height: 300px;
+    }
 }
