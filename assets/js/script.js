@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
     let fighters = document.getElementsByTagName('button');
 
     for (let fighter of fighters) {
@@ -15,11 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function playAudio(selection) {
-    let rockAnnounce = new Audio('');
-    let paperAnnounce = new Audio('');
-    let scissorsAnnounce = new Audio('');
-    let lizardAnnounce = new Audio('');
-    let spockAnnounce = new Audio('');
+    let rockAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/rock.mp3');
+    let paperAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/paper.mp3');
+    let scissorsAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/scissors.mp3');
+    let lizardAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/lizard.mp3');
+    let spockAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/spock.mp3');
 
     let announcements = [rockAnnounce, paperAnnounce, scissorsAnnounce, lizardAnnounce, spockAnnounce];
 
@@ -40,5 +41,4 @@ function playAudio(selection) {
             announcements[4].play();
             break;
     }
-
 }
