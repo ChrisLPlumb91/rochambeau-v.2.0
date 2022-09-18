@@ -45,27 +45,27 @@
                                     <div class="table-cell-divs">
 
                                         <div class="fighters player-fighters inline-block-divs">
-                                            <div data-type="rock" class="rock portraits player-portraits"><button type="submit"></button></div>
+                                            <div class="rock portraits player-portraits"><button data-type="rock" type="submit"></button></div>
                                         </div>
                                         <p>ROCK</p>
 
                                         <div class="fighters player-fighters inline-block-divs">
-                                            <div data-type="paper" class="paper portraits player-portraits"><button type="submit"></button></div>
+                                            <div class="paper portraits player-portraits"><button data-type="paper" type="submit"></button></div>
                                         </div>
                                         <p>PAPER</p>
 
                                         <div class="fighters player-fighters inline-block-divs">
-                                            <div data-type="scissors" class="scissors portraits player-portraits"><button type="submit"></button></div>
+                                            <div class="scissors portraits player-portraits"><button data-type="scissors" type="submit"></button></div>
                                         </div>
                                         <p>SCISSORS</p>
 
                                         <div class="fighters player-fighters inline-block-divs">
-                                            <div data-type="lizard" class="lizard portraits player-portraits"><button type="submit"></button></div>
+                                            <div class="lizard portraits player-portraits"><button data-type="lizard" type="submit"></button></div>
                                         </div>
                                         <p>LIZARD</p>
 
                                         <div class="fighters player-fighters inline-block-divs">
-                                            <div data-type="spock" class="spock portraits player-portraits"><button type="submit"></button></div>
+                                            <div class="spock portraits player-portraits"><button data-type="spock" type="submit"></button></div>
                                         </div>
                                         <p>SPOCK</p>
 
@@ -155,27 +155,27 @@
                                     <div class="table-cell-divs">
 
                                         <div class="fighters cpu-fighters inline-block-divs">
-                                            <div class="rock portraits cpu-portraits"></div>
+                                            <div id="rock-cpu" class="rock portraits cpu-portraits"></div>
                                         </div>
                                         <p>ROCK</p>
 
                                         <div class="fighters cpu-fighters inline-block-divs">
-                                            <div class="paper portraits cpu-portraits"></div>
+                                            <div id="paper-cpu" class="paper portraits cpu-portraits"></div>
                                         </div>
                                         <p>PAPER</p>
 
                                         <div class="fighters cpu-fighters inline-block-divs">
-                                            <div class="scissors portraits cpu-portraits"></div>
+                                            <div id="scissors-cpu" class="scissors portraits cpu-portraits"></div>
                                         </div>
                                         <p>SCISSORS</p>
 
                                         <div class="fighters cpu-fighters inline-block-divs">
-                                            <div class="lizard portraits cpu-portraits"></div>
+                                            <div id="lizard-cpu" class="lizard portraits cpu-portraits"></div>
                                         </div>
                                         <p>LIZARD</p>
                                         
                                         <div class="fighters cpu-fighters inline-block-divs">
-                                            <div class="spock portraits cpu-portraits"></div>
+                                            <div id="spock-cpu" class="spock portraits cpu-portraits"></div>
                                         </div>
                                         <p>SPOCK</p>
 
@@ -191,6 +191,8 @@
         </section>
 
         </div>
+
+        <audio id="bgm" hidden="hidden" loop> <source src="assets/media/bgm.mp3" type="audio/mpeg"> </audio>
 
         <script src="assets/js/script.js"></script>
     </body>

@@ -4,20 +4,23 @@ document.addEventListener('DOMContentLoaded', function() {
     let portraits = document.getElementsByClassName('player-portraits');
 
     for (let portraitFrame of portraitFrames) {
-        portraitFrame.addEventListener('click', changeColor);
-        portraitFrame.addEventListener('mouseout', retainFrameShape);
+        portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
+        portraitFrame.addEventListener('mouseout', restoreFrameSlantOut);
+        portraitFrame.addEventListener('click', clickChangeColor);
     }
 
     for (let portrait of portraits) {
-        portrait.addEventListener('click', animatePortrait);
-        portrait.addEventListener('mouseout', retainImageShape);
+        portrait.addEventListener('mouseover', retainImageAngleIn);
+        portrait.addEventListener('mouseout', retainImageAngleOut);
+        portrait.addEventListener('click', clickSwellPortrait);
     }
 
     for (let fighter of fighters) {
         fighter.addEventListener('click', function() {
             let bgm = document.getElementById('bgm');
-            bgm.volume = 0.6;
-            bgm.play();
+            let drum = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');
+            drum.volume = 0.5;
+            drum.play();
             
             let playerSelection = this.getAttribute('data-type');
 
@@ -31,39 +34,124 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })
 
-function changeColor(event) {
+
+
+function removeFrameSlantIn(event) {
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraitFrame = event.currentTarget;
 
-    for (let frame of portraitFrames) {
-        if (frame !== portraitFrame) {
-            frame.removeEventListener('click', changeColor);
-        } else {
-            continue;
-        }
-    }
+    let removeSlantKeyframes = [
+        { 
+            transform: 'skewX(40deg)',
+            width: '60%',
+        },
+        {
+            transform: 'skewX(0deg)',
+            width: '90%',
+        },
+    ];
 
-    portraitFrame.style.border = '3px solid #d8ffce';
-    portraitFrame.style.boxShadow = '0 0 32px #00ff40f8';
+    let removeSlantAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    portraitFrame.animate(removeSlantKeyframes, removeSlantAnimation);
+    portraitFrame.style.border = '3px solid #ffcece';
+    portraitFrame.style.boxShadow = '0 0 32px #ff002bf8';
 }
 
-function retainFrameShape(event) {
+function restoreFrameSlantOut(event) {
+    let portraitFrames = document.getElementsByClassName('player-fighters');
+    let portraitFrame = event.currentTarget;
+
+    let restoreSlantKeyframes = [
+        { 
+            transform: 'skewX(0deg)',
+            width: '90%',
+        },
+        {
+            transform: 'skewX(40deg)',
+            width: '60%',
+        },
+    ];
+
+    let restoreSlantAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    portraitFrame.animate(restoreSlantKeyframes, restoreSlantAnimation);
+    portraitFrame.style.border = '2px solid #444444';
+    portraitFrame.style.boxShadow = 'none';
+}
+
+function clickChangeColor(event) {
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraitFrame = event.currentTarget;
 
     for (let frame of portraitFrames) {
         if (frame !== portraitFrame) {
-            frame.removeEventListener('mouseout', retainFrameShape);
+            frame.removeEventListener('click', clickChangeColor);
         } else {
             continue;
         }
     }
+
+    portraitFrame.removeEventListener('mouseover', removeFrameSlantIn);
+    portraitFrame.removeEventListener('mouseout', restoreFrameSlantOut);  
+    portraitFrame.addEventListener('mouseout', selectionRetainFrameShapeOut);
+    portraitFrame.style.border = '3px solid #ceffda';
+    portraitFrame.style.boxShadow = '0 0 32px #00ff80f8';
+}
+
+function selectionRetainFrameShapeOut(event) {
+    let portraitFrame = event.currentTarget;
 
     portraitFrame.style.transform = 'skewX(0deg)';
     portraitFrame.style.width = '90%';
 }
 
-function animatePortrait(event) {
+
+
+
+function retainImageAngleIn(event) {
+    let portraits = document.getElementsByClassName('player-portraits');
+    let portrait = event.currentTarget;
+
+    let retainAngleKeyframes = [
+        { 
+            transform: 'skewX(320deg)',
+            right: '-40px',
+        },
+        {
+            transform: 'skewX(360deg)',
+            right: '-20px',
+        },
+    ];
+
+    let retainAngleAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+    
+    portrait.animate(retainAngleKeyframes, retainAngleAnimation);
+    portrait.style.boxShadow = '0 0 32px #ff002bf8 inset';
+}
+
+function retainImageAngleOut(event) {
+    let portraits = document.getElementsByClassName('player-portraits');
+    let portrait = event.currentTarget;
+
+    let retainAngleKeyframes = [
+        { 
+            transform: 'skewX(360deg)',
+            right: '-20px',
+        },
+        {
+            transform: 'skewX(320deg)',
+            right: '-40px',
+        },
+    ];
+
+    let retainAngleAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+    
+    portrait.animate(retainAngleKeyframes, retainAngleAnimation);
+    portrait.style.boxShadow = 'none';
+}
+
+function clickSwellPortrait(event) {
     let portraits = document.getElementsByClassName('player-portraits');
     let portrait = event.currentTarget;
 
@@ -72,36 +160,31 @@ function animatePortrait(event) {
         { transform: 'scale(1.1)' },
         { transform: 'scale(1)' },
     ];
-    let portraitSwellTime = {duration: 700, fill: 'forwards'};
+    let portraitSwellTime = { duration: 700, fill: 'forwards', };
 
     for (let image of portraits) {
         if (image !== portrait) {
-            image.removeEventListener('click', animatePortrait);
+            image.removeEventListener('click', clickSwellPortrait);
         } else {
             continue;
         }
     }
 
-    portrait.style.boxShadow = '0 0 32px #00ff40f8 inset';
+    portrait.removeEventListener('mouseover', retainImageAngleIn);
+    portrait.removeEventListener('mouseout', retainImageAngleOut);
+    portrait.addEventListener('mouseout', selectionRetainImageShapeOut);
+    portrait.style.boxShadow = '0 0 32px #00ff80f8 inset';
     portrait.animate(portraitSwelling, portraitSwellTime);
 }
 
-function retainImageShape(event) {
-    let portraits = document.getElementsByClassName('player-portraits');
+function selectionRetainImageShapeOut(event) {
     let portrait = event.currentTarget;
-
-
-    for (let image of portraits) {
-        if (image !== portrait) {
-            image.removeEventListener('mouseout', retainImageShape);
-        } else {
-            continue;
-        }
-    }
 
     portrait.style.transform = 'skewX(360deg)';
     portrait.style.right = '-20px';
 }
+
+
 
 function playAudio(playerSelection) {
     let rockAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/rock.mp3');
@@ -138,5 +221,5 @@ function cpuSelect() {
 
     let cpuSelection = cpuFighters[fighterNumber];
 
-    return cpuSelection.getAttribute('class');
+    return cpuSelection.getAttribute('id');
 }

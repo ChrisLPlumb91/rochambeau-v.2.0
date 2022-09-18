@@ -174,28 +174,6 @@ button {
     position: relative;
 }
 
-.player-fighters:hover {
-    animation-name: fighter-frame-change;
-    animation-duration: 0.3s;
-    animation-direction: normal;
-    animation-fill-mode: forwards;
-
-    border: 3px solid #ffcece;
-    box-shadow: 0 0 32px #ff002bf8;
-}
-
-@keyframes fighter-frame-change {
-    from{
-        transform: skewX(40deg);
-
-        width: 60%;
-    }
-    to{
-        transform: skewX(0deg);
-        width: 90%;
-    }
-}
-
 .portraits {
     width: 200px;
     height: 100px;
@@ -209,26 +187,6 @@ button {
     right: -40px;
 
     pointer-events: stroke;
-}
-
-.player-portraits:hover {
-    animation-name: fighter-portrait-static;
-    animation-duration: 0.3s;
-    animation-direction: normal;
-    animation-fill-mode: forwards;
-
-    box-shadow: 0 0 32px #ff002bf8 inset;
-}
-
-@keyframes fighter-portrait-static {
-    from{
-        transform: skewX(320deg);
-        right: -40px;
-    }
-    to{
-        transform: skewX(360deg);
-        right: -20px;
-    }
 }
 
 .player-fighters ~ p {
