@@ -17,11 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let fighter of fighters) {
         fighter.addEventListener('click', function() {
-            // let bgm = document.getElementById('bgm');
             let drum = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');
             drum.volume = 1;
             drum.play();
-            
+
             let playerSelection = this.getAttribute('data-type');
 
             for (let i = 0; i < fighters.length; i++) {
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(playSelectionAudio, 3000, cpuSelection);
             setTimeout(playDrum, 3000, drum); 
 
-            setTimeout(setContenders, 6000, playerSelection, cpuSelection);
+            setTimeout(setContenders, 5000, playerSelection, cpuSelection);
         })
     }
 })
@@ -327,14 +326,20 @@ function cpuSelectVisual(cpuSelection) {
 
 function setContenders(playerSelection, cpuSelection) {
     let sfx = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/electric-shock.mp3');
-    sfx.volume = 1;
+    sfx.volume = 0.5;
     
     let contenderFrames = document.getElementsByClassName('contenders');
     let playerContenderPortrait = document.getElementById('player-contender');
     let playerNameplate = document.getElementById('player-nameplate');
 
+    let versusText = document.getElementById('versus-text');
+
     let cpuContenderPortrait = document.getElementById('cpu-contender');
     let cpuNameplate = document.getElementById('cpu-nameplate');
+
+    let boutContainer = document.getElementById('bout-and-scoreboard-container-outer');
+
+    boutContainer.scrollIntoView({behavior: "smooth"});
 
     for (let frame of contenderFrames) {
         frame.style.border = '3px solid #ffcece';
@@ -344,6 +349,9 @@ function setContenders(playerSelection, cpuSelection) {
     playerContenderPortrait.style.background = `url(assets/images/${playerSelection}-square.jpg) no-repeat center center`;
     playerContenderPortrait.style.backgroundSize = '100% 100%';
     playerNameplate.innerHTML = playerSelection;
+
+    versusText.style.color = '#ffe0e0';
+    versusText.style.textShadow = '0 0 16px #ff002bf8';
 
     cpuContenderPortrait.style.background = `url(assets/images/${cpuSelection}-square.jpg) no-repeat center center`;
     cpuContenderPortrait.style.backgroundSize = '100% 100%';
