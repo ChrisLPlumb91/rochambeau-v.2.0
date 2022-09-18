@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fighter.addEventListener('click', function() {
             // let bgm = document.getElementById('bgm');
             let drum = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');
-            drum.volume = 0.6;
+            drum.volume = 1;
             drum.play();
             
             let playerSelection = this.getAttribute('data-type');
@@ -28,8 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 fighters[i].style.display = 'none';
             }
 
-            playAudio(playerSelection);
+            playSelectionAudio(playerSelection);
+
             let cpuSelection = cpuSelect();
+
+            setTimeout(cpuSelectVisual, 3000, cpuSelection);
+            setTimeout(playSelectionAudio, 3000, cpuSelection);
+            setTimeout(playDrum, 3000, drum); 
+
+            setTimeout(setContenders, 6000, playerSelection, cpuSelection);
         })
     }
 })
@@ -155,12 +162,12 @@ function clickSwellPortrait(event) {
     let portraits = document.getElementsByClassName('player-portraits');
     let portrait = event.currentTarget;
 
-    let portraitSwelling = [
+    let portraitSwellKeyframes = [
         { transform: 'scale(1)' },
         { transform: 'scale(1.1)' },
         { transform: 'scale(1)' },
     ];
-    let portraitSwellTime = { duration: 700, fill: 'forwards', };
+    let portraitSwellAnimation = { duration: 700, fill: 'forwards', };
 
     for (let image of portraits) {
         if (image !== portrait) {
@@ -174,7 +181,7 @@ function clickSwellPortrait(event) {
     portrait.removeEventListener('mouseout', retainImageAngleOut);
     portrait.addEventListener('mouseout', selectionRetainImageShapeOut);
     portrait.style.boxShadow = '0 0 32px #00ff80f8 inset';
-    portrait.animate(portraitSwelling, portraitSwellTime);
+    portrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
 }
 
 function selectionRetainImageShapeOut(event) {
@@ -186,7 +193,7 @@ function selectionRetainImageShapeOut(event) {
 
 
 
-function playAudio(playerSelection) {
+function playSelectionAudio(playerSelection) {
     let rockAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/rock.mp3');
     let paperAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/paper.mp3');
     let scissorsAnnounce = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/scissors.mp3');
@@ -217,9 +224,131 @@ function playAudio(playerSelection) {
 function cpuSelect() {
     let cpuFighters = document.getElementsByClassName('cpu-portraits');
     
-    let fighterNumber = Math.floor(Math.random() * 4);
+    let fighterNumber = Math.floor(Math.random() * 5);
 
     let cpuSelection = cpuFighters[fighterNumber];
 
     return cpuSelection.getAttribute('id');
+}
+
+function playDrum(drum) {
+    drum.volume = 1;
+    drum.play();
+}
+
+function cpuSelectVisual(cpuSelection) {
+    let cpuPortraitFrames = document.getElementsByClassName('cpu-fighters');
+    let cpuPortraits = document.getElementsByClassName('cpu-portraits');
+
+    let removeSlantKeyframes = [
+        { 
+            transform: 'skewX(320deg)',
+            width: '60%',
+        },
+        {
+            transform: 'skewX(360deg)',
+            width: '90%',
+        },
+    ];
+    let removeSlantAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    let retainAngleKeyframes = [
+        { 
+            transform: 'skewX(40deg)',
+            left: '-40px',
+        },
+        {
+            transform: 'skewX(0deg)',
+            left: '-20px',
+        },
+    ];
+    let retainAngleAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    let portraitSwellKeyframes = [
+        { transform: 'scaleX(-1) scaleY(1)' },
+        { transform: 'scaleX(-1.1) scaleY(1.1)' },
+        { transform: 'scaleX(-1) scaleY(1)' },
+    ];
+    let portraitSwellAnimation = { duration: 700, fill: 'forwards', };
+
+    switch(cpuSelection) {
+        case 'rock':
+            cpuPortraitFrames[0].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[0].style.border = '3px solid #ceffda';
+            cpuPortraitFrames[0].style.boxShadow = '0 0 32px #00ff80f8';
+
+            cpuPortraits[0].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[0].animate(portraitSwellKeyframes, portraitSwellAnimation)
+            cpuPortraits[0].style.boxShadow = '0 0 32px #00ff80f8 inset';
+
+            break;
+        case 'paper':
+            cpuPortraitFrames[1].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[1].style.border = '3px solid #ceffda';
+            cpuPortraitFrames[1].style.boxShadow = '0 0 32px #00ff80f8';
+
+            cpuPortraits[1].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[1].animate(portraitSwellKeyframes, portraitSwellAnimation)
+            cpuPortraits[1].style.boxShadow = '0 0 32px #00ff80f8 inset';
+
+            break;
+        case 'scissors':
+            cpuPortraitFrames[2].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[2].style.border = '3px solid #ceffda';
+            cpuPortraitFrames[2].style.boxShadow = '0 0 32px #00ff80f8';
+
+            cpuPortraits[2].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[2].animate(portraitSwellKeyframes, portraitSwellAnimation)
+            cpuPortraits[2].style.boxShadow = '0 0 32px #00ff80f8 inset';
+
+            break;
+        case 'lizard':
+            cpuPortraitFrames[3].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[3].style.border = '3px solid #ceffda';
+            cpuPortraitFrames[3].style.boxShadow = '0 0 32px #00ff80f8';
+
+            cpuPortraits[3].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[3].animate(portraitSwellKeyframes, portraitSwellAnimation)
+            cpuPortraits[3].style.boxShadow = '0 0 32px #00ff80f8 inset';
+
+            break;
+        case 'spock':
+            cpuPortraitFrames[4].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[4].style.border = '3px solid #ceffda';
+            cpuPortraitFrames[4].style.boxShadow = '0 0 32px #00ff80f8';
+
+            cpuPortraits[4].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[4].animate(portraitSwellKeyframes, portraitSwellAnimation)
+            cpuPortraits[4].style.boxShadow = '0 0 32px #00ff80f8 inset';
+
+            break;
+    }
+}
+
+function setContenders(playerSelection, cpuSelection) {
+    let sfx = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/electric-shock.mp3');
+    sfx.volume = 1;
+    
+    let contenderFrames = document.getElementsByClassName('contenders');
+    let playerContenderPortrait = document.getElementById('player-contender');
+    let playerNameplate = document.getElementById('player-nameplate');
+
+    let cpuContenderPortrait = document.getElementById('cpu-contender');
+    let cpuNameplate = document.getElementById('cpu-nameplate');
+
+    for (let frame of contenderFrames) {
+        frame.style.border = '3px solid #ffcece';
+        frame.style.boxShadow = '0 0 64px #ff002bf8, 0 0 32px #ff002bf8 inset';
+    }
+
+    playerContenderPortrait.style.background = `url(assets/images/${playerSelection}-square.jpg) no-repeat center center`;
+    playerContenderPortrait.style.backgroundSize = '100% 100%';
+    playerNameplate.innerHTML = playerSelection;
+
+    cpuContenderPortrait.style.background = `url(assets/images/${cpuSelection}-square.jpg) no-repeat center center`;
+    cpuContenderPortrait.style.backgroundSize = '100% 100%';
+    cpuContenderPortrait.style.transform = 'scaleX(-1)';
+    cpuNameplate.innerHTML = cpuSelection;
+
+    sfx.play();
 }
