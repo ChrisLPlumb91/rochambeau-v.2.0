@@ -207,6 +207,8 @@ button {
     transform: skewX(320deg);
 
     right: -40px;
+
+    pointer-events: stroke;
 }
 
 .player-portraits:hover {
