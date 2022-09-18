@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let fighter of fighters) {
         fighter.addEventListener('click', function() {
-            let bgm = document.getElementById('bgm');
+            // let bgm = document.getElementById('bgm');
             let drum = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');
-            drum.volume = 0.5;
+            drum.volume = 0.6;
             drum.play();
             
             let playerSelection = this.getAttribute('data-type');
