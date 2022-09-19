@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let fighters = document.getElementsByTagName('button');
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraits = document.getElementsByClassName('player-portraits');
+    let selectYourFighter = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/select-your-fighter.mp3');
+    let roundNumber;
 
     for (let portraitFrame of portraitFrames) {
         portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
         portrait.addEventListener('mouseout', retainImageAngleOut);
         portrait.addEventListener('click', clickSwellPortrait);
     }
+
+    selectYourFighter.play();
 
     for (let fighter of fighters) {
         fighter.addEventListener('click', function() {
@@ -36,8 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(playSelectionAudio, 3000, cpuSelection);
             setTimeout(playDrum, 3000, drum); 
 
-            setTimeout(setContenders, 5000, playerSelection, cpuSelection);
-            setTimeout(declareVictor, 6000, playerSelection, cpuSelection);
+            setTimeout(roundAudio, 5000, roundNumber);
+
+            setTimeout(setContenders, 7000, playerSelection, cpuSelection);
         })
     }
 })
@@ -237,6 +242,24 @@ function playDrum(drum) {
     drum.play();
 }
 
+function roundAudio(roundNumber) {
+    let roundOne = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/round-one.mp3');
+    let roundTwo = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/round-two.mp3');
+    let finalRound = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/final-round.mp3');
+
+    switch(roundNumber) {
+        case 1:
+            roundOne.play();
+            break;
+        case 2:
+            roundTwo.play();
+            break;
+        case 3:
+            finalRound.play();
+            break;
+    }
+}
+
 function cpuSelectVisual(cpuSelection) {
     let cpuPortraitFrames = document.getElementsByClassName('cpu-fighters');
     let cpuPortraits = document.getElementsByClassName('cpu-portraits');
@@ -361,6 +384,8 @@ function setContenders(playerSelection, cpuSelection) {
     cpuNameplate.innerHTML = cpuSelection;
 
     sfx.play();
+
+    setTimeout(declareVictor, 1000, playerSelection, cpuSelection);
 }
 
 function declareVictor(playerSelection, cpuSelection) {
@@ -385,83 +410,83 @@ function declareVictor(playerSelection, cpuSelection) {
     if (playerSelection === 'rock' && cpuSelection === 'paper') {
         rockVsPaper.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'rock' && cpuSelection === 'scissors') {
         rockVsScissors.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2500, win);
     } else if (playerSelection === 'rock' && cpuSelection === 'lizard') {
         rockVsLizard.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'rock' && cpuSelection === 'spock') {
         rockVsSpock.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2500, win);
     } else if (playerSelection === 'paper' && cpuSelection === 'rock') {
         rockVsPaper.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'paper' && cpuSelection === 'scissors') {
         paperVsScissors.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'paper' && cpuSelection === 'lizard') {
         paperVsLizard.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'paper' && cpuSelection === 'spock') {
         paperVsSpock.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'scissors' && cpuSelection === 'rock') {
         rockVsScissors.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2500, win);
     } else if (playerSelection === 'scissors' && cpuSelection === 'paper') {
         paperVsScissors.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'scissors' && cpuSelection === 'lizard') {
         scissorsVsLizard.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2700, win);
     } else if (playerSelection === 'scissors' && cpuSelection === 'spock') {
         scissorsVsSpock.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'lizard' && cpuSelection === 'rock') {
         rockVsLizard.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'lizard' && cpuSelection === 'paper') {
         paperVsLizard.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'lizard' && cpuSelection === 'scissors') {
         scissorsVsLizard.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2700, win);
     } else if (playerSelection === 'lizard' && cpuSelection === 'spock') {
         lizardVsSpock.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'spock' && cpuSelection === 'rock') {
         rockVsSpock.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2500, win);
     } else if (playerSelection === 'spock' && cpuSelection === 'paper') {
         paperVsSpock.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else if (playerSelection === 'spock' && cpuSelection === 'scissors') {
         scissorsVsSpock.play();
         win = true;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2200, win);
     } else if (playerSelection === 'spock' && cpuSelection === 'lizard') {
         lizardVsSpock.play();
         win = false;
-        setTimeout(highlightWinner, 1000, win);
+        setTimeout(highlightWinner, 2300, win);
     } else {
         draw.play();
     }
@@ -470,12 +495,24 @@ function declareVictor(playerSelection, cpuSelection) {
 function highlightWinner(winOrLose) {
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
+    let winnerSound = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/electric-shock-short.mp3');
+
+    let portraitSwellKeyframes = [
+        { backgroundSize: '100% 100%' },
+        { backgroundSize: '120% 120%' },
+        { backgroundSize: '100% 100%' },
+    ];
+    let portraitSwellAnimation = { duration: 500, fill: 'forwards', };
     
     if (winOrLose) {
+        playerContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
         playerContenderPortrait.style.border = '3px solid #ceffda';
         playerContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
+        winnerSound.play();
     } else {
+        cpuContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
         cpuContenderPortrait.style.border = '3px solid #ceffda';
         cpuContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
+        winnerSound.play();
     }
 }

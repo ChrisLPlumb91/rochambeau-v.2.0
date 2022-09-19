@@ -400,32 +400,51 @@ button {
     height: 80px;
 }
 
-.scoreboard-placings-inner > div {
-    vertical-align: top;
-    text-align: left;
-}
-
-.scoreboard-placings {
-    width: 100%;
+.round-lights {
+    width: 90px;
+    height: 90px;
     
-    letter-spacing: 6px;
-    text-indent: 6px;
+    background: url(../images/round-light.jpg) no-repeat center center;
+    background-size: 100% 100%;
 
-    border: 2px solid #383838;
-    box-shadow: 0 0 16px #000000; 
+    border: 2px solid #444444;
+    box-sizing: border-box;
+    border-radius: 50%;
+    box-shadow: 0 0 32px #000000;
+
+    overflow: clip;
 }
 
-.winning {
-    color:#a8934e;
-    text-shadow: 2px 1px #383838;
-    box-shadow: 0 0 16px #000000;
+.round-lights-player {
+    float: left;
 }
 
-.losing {
-    color:#946b54;
-    text-shadow: 2px 1px #383838;
-    box-shadow: 0 0 16px #000000;
+.round-lights-cpu {
+    float: right;
 }
+
+.light-off {
+    width: 100%;
+    height: 100%;
+    background-color: #0000007e;
+}
+
+
+
+
+/* styling for lights switched on; use in js. */
+
+#light {
+    box-shadow: 0 0 32px #ffffff, 0 0 32px #ffffff inset;
+    border: 3px solid #b6b4b4;
+}
+
+#light1 {
+    background-color: #ffffff00;
+}
+
+
+
 
 
 /* Media Queries */
@@ -664,6 +683,11 @@ button {
     .scoreboard-heading-inner {
         height: 50px;
     }
+
+    .round-lights {
+        width: 64px;
+        height: 64px;
+    }
 }
 
 @media screen and (max-width: 454px) {
@@ -694,11 +718,24 @@ button {
     }
 }
 
+@media screen and (max-width: 370px) {
+    .scoreboard-placings-outer {
+        width: 90%;
+    }
+}
+
 @media screen and (max-width: 357px) {
     .bout-box-outer {
         width: 100%;
 
         box-shadow: 0 0 64px #1a1431 inset;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .round-lights {
+        width: 50px;
+        height: 50px;
     }
 }
 
