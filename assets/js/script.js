@@ -1,9 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
+var playerWins = 0;
+var cpuWins = 0;
+var roundNumber = 1;
+
+alert('Welcome!');
+
+document.addEventListener('DOMContentLoaded', beginGame); 
+
+function beginGame() {
     let fighters = document.getElementsByTagName('button');
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraits = document.getElementsByClassName('player-portraits');
     let selectYourFighter = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/select-your-fighter.mp3');
-    let roundNumber;
+    
 
     for (let portraitFrame of portraitFrames) {
         portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
@@ -27,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let playerSelection = this.getAttribute('data-type');
 
-            for (let i = 0; i < fighters.length; i++) {
+            for (let i = 0; i < fighters.length; i++) { // THIS NEEDS TO BE UNDONE EACH ROUND BEFORE YOU CHOOSE YOUR CHARACTER, OTHERWISE NO BUTTONS TO CLICK.
                 fighters[i].style.display = 'none';
             }
 
@@ -40,14 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(playSelectionAudio, 3000, cpuSelection);
             setTimeout(playDrum, 3000, drum); 
 
-            setTimeout(roundAudio, 5000, roundNumber);
-
+            if (roundNumber === 1) {
+                setTimeout(roundAudio, 5000, roundNumber);
+            }
+            
             setTimeout(setContenders, 7000, playerSelection, cpuSelection);
         })
     }
-})
-
-
+}
 
 function removeFrameSlantIn(event) {
     let portraitFrames = document.getElementsByClassName('player-fighters');
@@ -509,10 +517,65 @@ function highlightWinner(winOrLose) {
         playerContenderPortrait.style.border = '3px solid #ceffda';
         playerContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
         winnerSound.play();
+
+        playerWins++;
     } else {
         cpuContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
         cpuContenderPortrait.style.border = '3px solid #ceffda';
         cpuContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
         winnerSound.play();
+
+        cpuWins++;
     }
+
+    setTimeout(lightPlayerLamps, 2000); // COULD ACTUALLY DO THESE WITH FOR LOOPS - ITERATIONS DETERMINED BY NUMBER OF WINS
+    setTimeout(lightCpuLamps, 2000);
+
+    prepareForNextRound();
+}
+
+function lightPlayerLamps() {
+    let roundLampsPlayer = document.getElementsByClassName('round-bulbs-player');
+    let roundLightPlayer = document.getElementsByClassName('light-off-player');
+
+    if (playerWins > 0) {
+        for (let i = 0; i < cpuWins; i++) {
+            roundLampsPlayer[i].style.border = '3px solid #b6b4b4';
+            roundLampsPlayer[i].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
+            roundLightPlayer[i].style.backgroundColor = '#ffffff00';
+        }
+    }   
+}
+
+function lightCpuLamps() {
+    let roundLampsCpu = document.getElementsByClassName('round-bulbs-cpu');
+    let roundLightCpu = document.getElementsByClassName('light-off-cpu');
+
+    if (cpuWins > 0) {
+        for (let i = 0; i < cpuWins; i++) {
+            roundLampsCpu[i].style.border = '3px solid #b6b4b4';
+            roundLampsCpu[i].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
+            roundLightCpu[i].style.backgroundColor = '#ffffff00';
+        }
+    }
+
+    // } else {
+    //     roundLampsCpu[0].style.border = '2px solid #444444';
+    //     roundLampsCpu[0].style.boxShadow = '0 0 32px #000000';
+    //     roundLightCpu[0].style.backgroundColor = '#0000007e';
+    //     roundLampsCpu[1].style.border = '2px solid #444444';
+    //     roundLampsCpu[1].style.boxShadow = '0 0 32px #000000';
+    //     roundLightCpu[1].style.backgroundColor = '#0000007e'; 
+    // }
+}
+
+function prepareForNextRound() {
+    let fighters = document.getElementsByTagName('button');
+    
+    for (let i = 0; i < fighters.length; i++) { 
+        fighters[i].style.display = 'initial';
+    }
+
+    setTimeout(roundAudio, 2000, ++roundNumber);
+    setTimeout(beginGame, 4000);
 }
