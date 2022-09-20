@@ -362,6 +362,7 @@ function setContenders(playerSelection, cpuSelection) {
     sfx.volume = 0.5;
     
     let contenderFrames = document.getElementsByClassName('contenders');
+
     let playerContenderPortrait = document.getElementById('player-contender');
     let playerNameplate = document.getElementById('player-nameplate');
 
@@ -513,25 +514,25 @@ function highlightWinner(winOrLose) {
     let portraitSwellAnimation = { duration: 500, fill: 'forwards', };
     
     if (winOrLose) {
-        playerContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
+        cpuContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
         playerContenderPortrait.style.border = '3px solid #ceffda';
         playerContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
         winnerSound.play();
 
-        playerWins++;
+        ++playerWins;
     } else {
-        cpuContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
+        playerContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
         cpuContenderPortrait.style.border = '3px solid #ceffda';
         cpuContenderPortrait.style.boxShadow = '0 0 64px #00ff80f8, 0 0 32px #00ff80f8 inset';
         winnerSound.play();
 
-        cpuWins++;
+        ++cpuWins;
     }
 
-    setTimeout(lightPlayerLamps, 2000); // COULD ACTUALLY DO THESE WITH FOR LOOPS - ITERATIONS DETERMINED BY NUMBER OF WINS
+    setTimeout(lightPlayerLamps, 2000);
     setTimeout(lightCpuLamps, 2000);
 
-    prepareForNextRound();
+    setTimeout(prepareForNextRound, 3000);
 }
 
 function lightPlayerLamps() {
@@ -571,11 +572,31 @@ function lightCpuLamps() {
 
 function prepareForNextRound() {
     let fighters = document.getElementsByTagName('button');
+
+    let contenderFrames = document.getElementsByClassName('contenders');
+    
+    let contenderNameplates = document.getElementsByClassName('nameplates');
+
+    let versusText = document.getElementById('versus-text');
     
     for (let i = 0; i < fighters.length; i++) { 
         fighters[i].style.display = 'initial';
     }
 
-    setTimeout(roundAudio, 2000, ++roundNumber);
-    setTimeout(beginGame, 4000);
+    for (let frame of contenderFrames) {
+        frame.style.border = '2px solid #444444';
+        frame.style.boxShadow = '0 0 64px #000000';
+        frame.style.background = `url(assets/images/contender-disc.jpg) no-repeat center center`;
+        frame.style.backgroundSize = '100% 100%';
+    }
+
+    for (let nameplate of contenderNameplates) {
+        nameplate.innerHTML = '';
+    }
+
+    versusText.style.color = '#918f8f';
+    versusText.style.textShadow = '2px 2px #444444';
+
+    roundAudio(++roundNumber);
+    setTimeout(beginGame, 2000);
 }
