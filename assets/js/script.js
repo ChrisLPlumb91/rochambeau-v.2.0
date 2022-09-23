@@ -1,3 +1,5 @@
+var newGame;
+
 var playerWins = 0;
 var cpuWins = 0;
 var roundNumber = 1;
@@ -6,13 +8,16 @@ var mouseIn;
 var eventListenerAttached = false;
 var drawOccurredOnce = false;
 
+var playerDead = false;
+var cpuDead = false;
+
 alert('Welcome!');
 
 document.addEventListener('DOMContentLoaded', beginGame); 
 
 function beginGame() {    
     let laserFrame = document.getElementById('player-laser-box');
-    let fighters = document.getElementsByTagName('button');
+    let fighters = document.getElementsByClassName('character-buttons');
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraits = document.getElementsByClassName('player-portraits');
     let selectYourFighter = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/select-your-fighter.mp3');
@@ -34,6 +39,10 @@ function beginGame() {
 
     let laserSwellAnimation = { duration: 1000, direction: 'alternate', iterations: 3, };
 
+    newGame = false;
+
+    selectYourFighter.play();
+
     if (eventListenerAttached === false) {
         for (let portraitFrame of portraitFrames) {
             portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
@@ -48,7 +57,6 @@ function beginGame() {
         }
     }
 
-    selectYourFighter.play();
     laserFrame.animate(laserSwellKeyFrames, laserSwellAnimation);
 
     for (let fighter of fighters) {
@@ -59,7 +67,7 @@ function beginGame() {
 function selectionPhase(event) {
     event.preventDefault();
 
-    let fighters = document.getElementsByTagName('button');
+    let fighters = document.getElementsByClassName('character-buttons');
 
     let drum = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');
     drum.volume = 1;
@@ -75,10 +83,10 @@ function selectionPhase(event) {
 
     let cpuSelection = cpuSelect();
 
-    setTimeout(cpuSelectVisual, 2000, cpuSelection);
+    setTimeout(cpuSelectVisual, 2500, cpuSelection);
 
-    setTimeout(playSelectionAudio, 2000, cpuSelection);
-    setTimeout(playDrum, 2000, drum); 
+    setTimeout(playSelectionAudio, 2500, cpuSelection);
+    setTimeout(playDrum, 2500, drum); 
 
     if (roundNumber === 1 && drawOccurredOnce === false) {
         setTimeout(roundAudio, 4000, roundNumber);
@@ -615,7 +623,7 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
         if (playerWins <= 1 && cpuWins <= 1) {
             setTimeout(prepareForNextRound, 3000, playerSelection, cpuSelection, draw);
         } else {
-            setTimeout(endGame, 3000);
+            setTimeout(endGame, 3000, playerSelection, cpuSelection, draw);
         }        
 }
 
@@ -623,11 +631,18 @@ function lightPlayerLamps() {
     let roundLampsPlayer = document.getElementsByClassName('round-bulbs-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
 
-    if (playerWins > 0) {
+    if (newGame) {
         for (let i = 0; i < playerWins; i++) {
-            roundLampsPlayer[i].style.border = '3px solid #b6b4b4';
-            roundLampsPlayer[i].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
-            roundLightPlayer[i].style.backgroundColor = '#ffffff00';
+            roundLampsPlayer[i].style.border = '2px solid #444444';
+            roundLampsPlayer[i].style.boxShadow = '0 0 32px #000000';
+            roundLightPlayer[i].style.backgroundColor = '#0000007e';
+        }
+        playerWins = 0;
+    } else if (playerWins > 0) {
+        for (let j = 0; j < playerWins; j++) {
+            roundLampsPlayer[j].style.border = '3px solid #b6b4b4';
+            roundLampsPlayer[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
+            roundLightPlayer[j].style.backgroundColor = '#ffffff00';
         }
     }   
 }
@@ -636,19 +651,30 @@ function lightCpuLamps() {
     let roundLampsCpu = document.getElementsByClassName('round-bulbs-cpu');
     let roundLightCpu = document.getElementsByClassName('light-off-cpu');
 
-    if (cpuWins > 0) {
+    if (newGame) {
         for (let i = 0; i < cpuWins; i++) {
-            roundLampsCpu[i].style.border = '3px solid #b6b4b4';
-            roundLampsCpu[i].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
-            roundLightCpu[i].style.backgroundColor = '#ffffff00';
+            roundLampsCpu[i].style.border = '2px solid #444444';
+            roundLampsCpu[i].style.boxShadow = '0 0 32px #000000';
+            roundLightCpu[i].style.backgroundColor = '#0000007e';
+        }
+        cpuWins = 0;
+    } else if (cpuWins > 0) {
+        for (let j = 0; j < cpuWins; j++) {
+            roundLampsCpu[j].style.border = '3px solid #b6b4b4';
+            roundLampsCpu[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
+            roundLightCpu[j].style.backgroundColor = '#ffffff00';
         }
     }
 }
 
 function prepareForNextRound(playerSelection, cpuSelection, draw) {
+    
     let fighters = document.getElementsByTagName('button');
 
     let contenderFrames = document.getElementsByClassName('contenders');
+
+    let playerContenderPortrait = document.getElementById('player-contender');
+    let cpuContenderPortrait = document.getElementById('cpu-contender');
     
     let playerNameplate = document.getElementById('player-nameplate');
     let cpuNameplate = document.getElementById('cpu-nameplate');
@@ -714,6 +740,18 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     ];
     let retainAngleAnimationPlayer = { duration: 150, fill: 'forwards', direction: 'normal', };
 
+    if (playerDead) {
+        playerContenderPortrait.style.border = '3px solid #444444';
+        playerContenderPortrait.style.boxShadow = '0 0 64px #000000';
+
+        playerDead = false;
+    } else if (cpuDead) {
+        cpuContenderPortrait.style.border = '3px solid #444444';
+        cpuContenderPortrait.style.boxShadow = '0 0 64px #000000';
+
+        cpuDead = false;
+    }
+
     for(let i = 0; i < playerPortraitFrames.length; i++) {
         if (playerPortraitFrames[i].getAttribute('data-type') === playerSelection) {
             playerSelectionFrameIndex = i;
@@ -739,7 +777,7 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     }
 
     for (let frame of contenderFrames) {
-        frame.style.border = '2px solid #444444';
+        frame.style.border = '3px solid #444444';
         frame.style.boxShadow = '0 0 64px #000000';
         frame.style.background = `url(assets/images/contender-disc.jpg) no-repeat center center`;
         frame.style.backgroundSize = '100% 100%';
@@ -786,23 +824,30 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     cpuPortraits[cpuSelectionPortraitIndex].style.boxShadow = 'none';
     cpuPortraitFrames[cpuSelectionFrameIndex].animate(restoreSlantKeyframesCpu, restoreSlantAnimationCpu);
     cpuPortraits[cpuSelectionPortraitIndex].animate(retainAngleKeyframesCpu, retainAngleAnimationCpu);
-    
-    if (draw) {
-        roundAudio(roundNumber);
-        drawOccurredOnce = true;
-    } else {
-        roundAudio(++roundNumber);
+
+    if (newGame === false) {
+        if (draw) {
+            roundAudio(roundNumber);
+            drawOccurredOnce = true;
+        } else {
+            roundAudio(++roundNumber);
+        }
     }
+
+    newGame = false;
     
     setTimeout(beginGame, 2000);
 }
 
-function endGame() {
+function endGame(playerSelection, cpuSelection, draw) {
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
 
     let playerBackgroundProperty = playerContenderPortrait.style.background;
     let cpuBackgroundProperty = cpuContenderPortrait.style.background;
+
+    let victorious = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victorious.mp3');
+    let defeated = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
     
     let contenderPortraitGlowKeyframes = [
         { boxShadow: '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset' },
@@ -815,22 +860,88 @@ function endGame() {
         { boxShadow: '0 0 32px #000000bb, 0 0 128px #000000dd inset' },
     ];
 
-    let loserPortraitDarkenAnimation = { duration: 1000, direction: 'normal', fill: "forwards", };
+    let loserPortraitDarkenAnimation = { duration: 1000, direction: 'normal' };
     
     if (playerWins === 2) {
         playerContenderPortrait.style.border = '4px solid #fff1b5';
         playerContenderPortrait.style.boxShadow = '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset';
         playerContenderPortrait.animate(contenderPortraitGlowKeyframes, contenderPortraitGlowAnimation);
 
-        cpuContenderPortrait.style.border = '2px solid #444444';
+        cpuContenderPortrait.style.border = '3px solid #444444';
         cpuContenderPortrait.animate(loserPortraitDarkenKeyFrames, loserPortraitDarkenAnimation);
+        cpuContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
+        
+        cpuDead = true;
 
+        victorious.play();
     } else {
         cpuContenderPortrait.style.border = '4px solid #fff1b5';
         cpuContenderPortrait.style.boxShadow = '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset';
         cpuContenderPortrait.animate(contenderPortraitGlowKeyframes, contenderPortraitGlowAnimation);
 
-        playerContenderPortrait.style.border = '2px solid #444444';
+        playerContenderPortrait.style.border = '3px solid #444444';
         playerContenderPortrait.animate(loserPortraitDarkenKeyFrames, loserPortraitDarkenAnimation);
+        playerContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
+        
+        playerDead = true;
+
+        defeated.play();
     }
+
+    setTimeout(displayPlayAgain, 4000, playerSelection, cpuSelection, draw);
+}
+
+function displayPlayAgain(playerSelection, cpuSelection, draw) {
+    let playAgainScreen = document.getElementById('play-again-container');
+    let playAgainButton = document.getElementById('play-again-button');
+
+    playAgainButton.addEventListener('click', playAgain);
+    
+    playAgainScreen.style.display = 'table';
+}
+
+function playAgain (event) {
+    event.preventDefault();
+
+    newGame = true;
+        
+    roundNumber = 1;
+
+    drawOccurredOnce = false;
+
+    let draw = false;
+        
+    let buttonClickKeyframes = [
+        { 
+            width: '49%',
+            height: '19%',
+        },
+        { 
+            width: '50%',
+            height: '20%',
+        },
+    ];
+
+    let buttonClickAnimation = { duration: 100, direction: 'alternate' };
+
+    let playerNameplate = document.getElementById('player-nameplate');
+    let cpuNameplate = document.getElementById('cpu-nameplate');
+
+    let playerSelection = playerNameplate.innerText;
+    let cpuSelection = cpuNameplate.innerText;
+
+    this.animate(buttonClickKeyframes, buttonClickAnimation);
+
+    setTimeout(clearPlayAgain, 1000);
+
+    setTimeout(lightPlayerLamps, 1500);
+    setTimeout(lightCpuLamps, 1500);
+
+    setTimeout(prepareForNextRound, 2000, playerSelection, cpuSelection, draw);
+}
+
+function clearPlayAgain() {
+    let playAgainScreen = document.getElementById('play-again-container');
+
+    playAgainScreen.style.display = 'none';
 }
