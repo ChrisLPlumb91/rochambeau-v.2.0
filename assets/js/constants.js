@@ -270,7 +270,9 @@ const LIZARD_VS_SPOCK_OUTCOME = new Audio('https://chrislplumb91.github.io/rocha
 
 const DRAW_ANNOUNCE = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/draw.mp3');
 
-const CLASH_SOUND = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/electric-shock-short.mp3'); // a.k.a. winnerSound
+const CLASH_SOUND = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/electric-shock-short.mp3');
+
+const LAMP_ON = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/light-on.mp3');
 
 const RESET_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/reset-swish.mp3')
 
@@ -278,3 +280,5 @@ const VICTORIOUS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/a
 const DEFEATED = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
 
 const DEFEAT_STING = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeat-sting.mp3')
+
+const LAMP_OFF = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/light-off.mp3')

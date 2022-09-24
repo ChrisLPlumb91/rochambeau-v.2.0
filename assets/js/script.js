@@ -103,7 +103,7 @@ function selectionPhase(event) {
     let cpuSelection = fighterName[0];
 
     setTimeout(playSelectionAudio, 2500, cpuSelection);
-    setTimeout(playSound(DRUM), 2500); 
+    setTimeout(playDrum, 2500); 
 
     if (roundNumber === 1 && drawOccurredOnce === false) {
         setTimeout(roundAudio, 4000, roundNumber);
@@ -255,9 +255,9 @@ function cpuSelect() {
     return cpuNumberAndName;
 }
 
-function playSound(sound) {
-    sound.volume = 1;
-    sound.play();
+function playDrum() {
+    DRUM.volume = 1;
+    DRUM.play();
 }
 
 function roundAudio(roundNumber) {
@@ -486,6 +486,12 @@ function lightPlayerLamps() {
             roundLampsPlayer[i].style.border = '2px solid #444444';
             roundLampsPlayer[i].style.boxShadow = '0 0 32px #000000';
             roundLightPlayer[i].style.backgroundColor = '#0000007e';
+            
+            if (playerWins - 1 === 0) {
+                LAMP_OFF.play();
+            } else if (playerWins - 1 === 1) {
+                continue;
+            }
         }
         playerWins = 0;
     } else if (playerWins > 0) {
@@ -493,6 +499,10 @@ function lightPlayerLamps() {
             roundLampsPlayer[j].style.border = '3px solid #b6b4b4';
             roundLampsPlayer[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
             roundLightPlayer[j].style.backgroundColor = '#ffffff00';
+
+            if (playerWins - j === 1) {
+                LAMP_ON.play();
+            }
         }
     }   
 }
@@ -513,6 +523,7 @@ function lightCpuLamps() {
             roundLampsCpu[j].style.border = '3px solid #b6b4b4';
             roundLampsCpu[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
             roundLightCpu[j].style.backgroundColor = '#ffffff00';
+            LAMP_ON.play();
         }
     }
 }
@@ -682,7 +693,8 @@ function endGame() {
         
         cpuKO = true;
 
-        VICTORIOUS.play();
+        DEFEAT_STING.play();
+        setTimeout(playFinalOutcomeSound, 1000);
     } else {
         cpuContenderPortrait.style.border = '4px solid #fff2b5';
         cpuContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffb13b inset';
@@ -694,15 +706,23 @@ function endGame() {
         
         playerKO = true;
 
-        playSound(DEFEAT_STING);
-        setTimeout(playSound, 1000, DEFEATED);
+        DEFEAT_STING.play();
+        setTimeout(playFinalOutcomeSound, 1000);
     }
 
     if (window.innerWidth <= 1110) {
         boutContainer.scrollIntoView({behavior: 'smooth'});
     }
 
-    setTimeout(displayPlayAgain, 4000);
+    setTimeout(displayPlayAgain, 3000);
+}
+
+function playFinalOutcomeSound() {
+    if (cpuKO) {
+        VICTORIOUS.play();
+    } else if (playerKO) {
+        DEFEATED.play();
+    }
 }
 
 function displayPlayAgain() {
