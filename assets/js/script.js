@@ -463,8 +463,8 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
         ++cpuWins;
     }
 
-    setTimeout(lightPlayerLamps, 2000);
-    setTimeout(lightCpuLamps, 2000);
+    setTimeout(lightPlayerLamps, 2000, draw);
+    setTimeout(lightCpuLamps, 2000, draw);
 
     if (playerWins <= 1 && cpuWins <= 1) {
         setTimeout(prepareForNextRound, 3000, playerSelection, cpuSelection, draw);
@@ -473,7 +473,7 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
     }        
 }
 
-function lightPlayerLamps() {
+function lightPlayerLamps(draw) {
     let roundLampsPlayer = document.getElementsByClassName('round-lamps-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
 
@@ -487,14 +487,16 @@ function lightPlayerLamps() {
             roundLampsPlayer[i].style.boxShadow = '0 0 32px #000000';
             roundLightPlayer[i].style.backgroundColor = '#0000007e';
             
-            if (playerWins - 1 === 0) {
+            if (playerWins - i === 1) {
                 LAMP_OFF.play();
-            } else if (playerWins - 1 === 1) {
+            } else if (playerWins - i === 0) {
                 continue;
             }
         }
+    
         playerWins = 0;
-    } else if (playerWins > 0) {
+        
+    } else if (playerWins > 0 && draw === false) {
         for (let j = 0; j < playerWins; j++) {
             roundLampsPlayer[j].style.border = '3px solid #b6b4b4';
             roundLampsPlayer[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
@@ -502,12 +504,12 @@ function lightPlayerLamps() {
 
             if (playerWins - j === 1) {
                 LAMP_ON.play();
-            }
+            } 
         }
     }   
 }
 
-function lightCpuLamps() {
+function lightCpuLamps(draw) {
     let roundLampsCpu = document.getElementsByClassName('round-lamps-cpu');
     let roundLightCpu = document.getElementsByClassName('light-off-cpu');
 
@@ -518,12 +520,14 @@ function lightCpuLamps() {
             roundLightCpu[i].style.backgroundColor = '#0000007e';
         }
         cpuWins = 0;
-    } else if (cpuWins > 0) {
+    } else if (cpuWins > 0 && draw === false) {
         for (let j = 0; j < cpuWins; j++) {
             roundLampsCpu[j].style.border = '3px solid #b6b4b4';
             roundLampsCpu[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
             roundLightCpu[j].style.backgroundColor = '#ffffff00';
-            LAMP_ON.play();
+            if (cpuWins - j === 1) {
+                LAMP_ON.play();
+            }
         }
     }
 }
