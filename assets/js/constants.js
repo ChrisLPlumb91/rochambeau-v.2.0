@@ -281,6 +281,9 @@ const LAMP_ON = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/asse
 
 const RESET_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/reset-swish.mp3')
 
+const ABHORRENT_SHEARS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/abhorrent-shears.mp3');
+
+
 const VICTORIOUS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victorious.mp3');
 const DEFEATED = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
 

@@ -478,7 +478,7 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
     }
 
     if (playerWins <= 1 && cpuWins <= 1 && draw) {
-        setTimeout(prepareForNextRound, 1500, playerSelection, cpuSelection, draw);
+        setTimeout(prepareForNextRound, 1100, playerSelection, cpuSelection, draw);
     } else if (playerWins <= 1 && cpuWins <= 1) {
         setTimeout(prepareForNextRound, 2400, playerSelection, cpuSelection, draw);
     } else {
@@ -704,7 +704,7 @@ function endGame() {
     
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
-    
+
     if (playerWins === 2) {
         playerContenderPortrait.style.border = '4px solid #fff2b5';
         playerContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffbb3b inset';
