@@ -20,6 +20,7 @@ function animateButton (event) {
 
     let playAgainText = document.getElementById('play-again-button-text');
 
+    START_GAME.play();
     this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
     playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
     
@@ -114,10 +115,13 @@ function selectionPhase(event) {
 } 
 
 function removeFrameSlantIn(event) {  
+    event.preventDefault();
+    
     let portraitFrame = event.currentTarget;
 
     if (mouseIn === null || mouseIn === false) {
         portraitFrame.animate(REMOVE_SLANT_KEYFRAMES, REMOVE_SLANT_ANIMATION);
+        MOUSEOVER_SWISH.volume = 0.5;
         MOUSEOVER_SWISH.play();
     } else {
         portraitFrame.animate(REMOVE_SLANT_KEYFRAMES_STATIC, REMOVE_SLANT_ANIMATION_STATIC);
@@ -135,6 +139,7 @@ function restoreFrameSlantOut(event) {
     portraitFrame.animate(RESTORE_SLANT_KEYFRAMES, RESTORE_SLANT_ANIMATION);
     portraitFrame.style.border = '2px solid #444444';
     portraitFrame.style.boxShadow = 'none';
+    MOUSEOUT_SWISH.volume = 0.5;
     MOUSEOUT_SWISH.play();
 }
 
@@ -157,6 +162,8 @@ function clickChangeColor(event) {
 }
 
 function selectionRetainFrameShapeOut(event) {
+    event.preventDefault();
+    
     let portraitFrame = event.currentTarget;
 
     portraitFrame.style.transform = 'skewX(0deg)';
@@ -426,7 +433,7 @@ function declareVictor(playerSelection, cpuSelection) {
     } else {
         DRAW_ANNOUNCE.play();
         draw = true;
-        setTimeout(highlightWinner, 2200, win, playerSelection, cpuSelection, draw);
+        setTimeout(highlightWinner, 1000, win, playerSelection, cpuSelection, draw);
     }
 }
 
@@ -465,17 +472,21 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
         ++cpuWins;
     }
 
-    setTimeout(lightPlayerLamps, 2000, draw);
-    setTimeout(lightCpuLamps, 2000, draw);
+    if (draw === false) {
+        setTimeout(lightPlayerLamps, 1500);
+        setTimeout(lightCpuLamps, 1500);
+    }
 
-    if (playerWins <= 1 && cpuWins <= 1) {
-        setTimeout(prepareForNextRound, 3000, playerSelection, cpuSelection, draw);
+    if (playerWins <= 1 && cpuWins <= 1 && draw) {
+        setTimeout(prepareForNextRound, 1500, playerSelection, cpuSelection, draw);
+    } else if (playerWins <= 1 && cpuWins <= 1) {
+        setTimeout(prepareForNextRound, 2400, playerSelection, cpuSelection, draw);
     } else {
         setTimeout(endGame, 3000, playerSelection, cpuSelection, draw);
     }        
 }
 
-function lightPlayerLamps(draw) {
+function lightPlayerLamps() {
     let roundLampsPlayer = document.getElementsByClassName('round-lamps-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
 
@@ -489,7 +500,9 @@ function lightPlayerLamps(draw) {
             roundLampsPlayer[i].style.boxShadow = '0 0 32px #000000';
             roundLightPlayer[i].style.backgroundColor = '#0000007e';
             
-            if (playerWins - i === 1) {
+            if (playerWins - i === 1 && cpuWins === 2) {
+                continue;
+            } else if (playerWins - i === 1) {
                 LAMP_OFF.play();
             } else if (playerWins - i === 0) {
                 continue;
@@ -498,7 +511,7 @@ function lightPlayerLamps(draw) {
     
         playerWins = 0;
 
-    } else if (playerWins > 0 && draw === false) {
+    } else if (playerWins > 0) {
         for (let j = 0; j < playerWins; j++) {
             roundLampsPlayer[j].style.border = '3px solid #b6b4b4';
             roundLampsPlayer[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
@@ -511,7 +524,7 @@ function lightPlayerLamps(draw) {
     }   
 }
 
-function lightCpuLamps(draw) {
+function lightCpuLamps() {
     let roundLampsCpu = document.getElementsByClassName('round-lamps-cpu');
     let roundLightCpu = document.getElementsByClassName('light-off-cpu');
 
@@ -520,9 +533,12 @@ function lightCpuLamps(draw) {
             roundLampsCpu[i].style.border = '2px solid #444444';
             roundLampsCpu[i].style.boxShadow = '0 0 32px #000000';
             roundLightCpu[i].style.backgroundColor = '#0000007e';
+            if (cpuWins === 2) {
+                LAMP_OFF.play();
+            }
         }
         cpuWins = 0;
-    } else if (cpuWins > 0 && draw === false) {
+    } else if (cpuWins > 0) {
         for (let j = 0; j < cpuWins; j++) {
             roundLampsCpu[j].style.border = '3px solid #b6b4b4';
             roundLampsCpu[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
@@ -700,7 +716,7 @@ function endGame() {
         
         cpuKO = true;
 
-        DEFEAT_STING.play();
+        VICTORY_STING.play();
         setTimeout(playFinalOutcomeSound, 1000);
     } else {
         cpuContenderPortrait.style.border = '4px solid #fff2b5';
@@ -764,6 +780,7 @@ function playAgain (event) {
 
     let playAgainText = document.getElementById('play-again-button-text');
 
+    START_GAME.play();
     this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
     playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
 

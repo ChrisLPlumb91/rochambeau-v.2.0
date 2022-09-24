@@ -238,6 +238,8 @@ const LOSER_PORTRAIT_DARKEN_ANIMATION = { duration: 1000, direction: 'normal' };
 
 // AUDIO
 
+const START_GAME = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/start-game.mp3');
+
 const MOUSEOVER_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/mouseover-swish.mp3');
 const MOUSEOUT_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/mouseout-swish.mp3');
 
@@ -282,6 +284,7 @@ const RESET_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/
 const VICTORIOUS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victorious.mp3');
 const DEFEATED = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
 
+const VICTORY_STING = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victory-sting.mp3');
 const DEFEAT_STING = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeat-sting.mp3')
 
 const LAMP_OFF = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/light-off.mp3')
