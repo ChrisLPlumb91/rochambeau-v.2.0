@@ -238,6 +238,9 @@ const LOSER_PORTRAIT_DARKEN_ANIMATION = { duration: 1000, direction: 'normal' };
 
 // AUDIO
 
+const MOUSEOVER_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/mouseover-swish.mp3');
+const MOUSEOUT_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/mouseout-swish.mp3');
+
 const SELECT_YOUR_FIGHTER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/select-your-fighter.mp3');
 
 const DRUM = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/drum-select.mp3');

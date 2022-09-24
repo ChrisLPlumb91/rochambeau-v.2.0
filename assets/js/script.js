@@ -118,6 +118,7 @@ function removeFrameSlantIn(event) {
 
     if (mouseIn === null || mouseIn === false) {
         portraitFrame.animate(REMOVE_SLANT_KEYFRAMES, REMOVE_SLANT_ANIMATION);
+        MOUSEOVER_SWISH.play();
     } else {
         portraitFrame.animate(REMOVE_SLANT_KEYFRAMES_STATIC, REMOVE_SLANT_ANIMATION_STATIC);
         mouseIn = false;
@@ -134,6 +135,7 @@ function restoreFrameSlantOut(event) {
     portraitFrame.animate(RESTORE_SLANT_KEYFRAMES, RESTORE_SLANT_ANIMATION);
     portraitFrame.style.border = '2px solid #444444';
     portraitFrame.style.boxShadow = 'none';
+    MOUSEOUT_SWISH.play();
 }
 
 function clickChangeColor(event) {
@@ -495,7 +497,7 @@ function lightPlayerLamps(draw) {
         }
     
         playerWins = 0;
-        
+
     } else if (playerWins > 0 && draw === false) {
         for (let j = 0; j < playerWins; j++) {
             roundLampsPlayer[j].style.border = '3px solid #b6b4b4';
@@ -609,6 +611,7 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
         playerPortraitFrames[playerSelectionFrameIndex].style.boxShadow = '0 0 32px #ff002bf8';
 
         playerPortraits[playerSelectionPortraitIndex].style.boxShadow = '0 0 32px #ff002bf8 inset';
+        RESET_SWISH.play();
     } else if (mouseIn === false) {
         playerPortraitFrames[playerSelectionPortraitIndex].animate(RESTORE_SLANT_KEYFRAMES, RESTORE_SLANT_ANIMATION);
         playerPortraitFrames[playerSelectionFrameIndex].style.border = '2px solid #444444';
@@ -648,17 +651,17 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
 
     if (newGame === false) {
         if (draw) {
-            roundAudio(roundNumber);
+            setTimeout(roundAudio, 500, roundNumber);
             drawOccurredOnce = true;
         } else {
-            roundAudio(++roundNumber);
+            setTimeout(roundAudio, 500, ++roundNumber);
         }
     }
 
     newGame = false;
 
-    setTimeout(beginGame, 1400);
-    setTimeout(unhideButtons, 3600);
+    setTimeout(beginGame, 1900);
+    setTimeout(unhideButtons, 4100);
 }
 
 function unhideButtons() {
