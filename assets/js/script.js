@@ -11,13 +11,53 @@ var drawOccurredOnce = false;
 var playerDead = false;
 var cpuDead = false;
 
-alert('Welcome!');
+let beginGameButton = document.getElementById('play-again-button');
 
-document.addEventListener('DOMContentLoaded', beginGame); 
+beginGameButton.addEventListener('click', animateButton);
 
-function beginGame() {    
+function animateButton (event) {
+    event.preventDefault();
+    
+    let buttonClickKeyframes = [
+        { 
+            width: '49%',
+            height: '19%',
+        },
+        { 
+            width: '50%',
+            height: '20%',
+        },
+    ];
+
+    let buttonClickAnimation = { duration: 100, direction: 'alternate', };
+
+    let buttonTextShrinkKeyframes = [
+        {
+            fontSize: '2rem',
+        },
+        {
+            fontSize: '1.8rem',
+        },
+    ]
+
+    let buttonTextShrinkAnimation = { duration: 100, direction: 'alternate', };
+
+    let playAgainText = document.getElementsByTagName('h4');
+
+    this.animate(buttonClickKeyframes, buttonClickAnimation);
+    playAgainText[0].animate(buttonTextShrinkKeyframes, buttonTextShrinkAnimation);
+    
+    setTimeout(clearPlayAgain, 600);
+    setTimeout(beginGame, 600);
+}
+
+function beginGame(event) {   
+    if (event !== undefined) {
+        event.preventDefault();
+    }
+    
     let laserFrame = document.getElementById('player-laser-box');
-    let fighters = document.getElementsByClassName('character-buttons');
+    let playerLaser = document.getElementById('player-title');
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraits = document.getElementsByClassName('player-portraits');
     let selectYourFighter = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/select-your-fighter.mp3');
@@ -43,25 +83,44 @@ function beginGame() {
 
     selectYourFighter.play();
 
+    laserFrame.animate(laserSwellKeyFrames, laserSwellAnimation);
+    playerLaser.animate(laserSwellKeyFrames, laserSwellAnimation);
+
     if (eventListenerAttached === false) {
         for (let portraitFrame of portraitFrames) {
             portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
             portraitFrame.addEventListener('mouseout', restoreFrameSlantOut);
-            portraitFrame.addEventListener('click', clickChangeColor);
         }
 
         for (let portrait of portraits) {
             portrait.addEventListener('mouseover', retainImageAngleIn);
             portrait.addEventListener('mouseout', retainImageAngleOut);
+        }
+
+        setTimeout(initialClickListenersAttach, 2200);
+    }
+    
+    debugger;
+}
+
+function initialClickListenersAttach() {
+    let portraitFrames = document.getElementsByClassName('player-fighters');
+    let portraits = document.getElementsByClassName('player-portraits');
+    let fighters = document.getElementsByClassName('character-buttons');
+
+    if (eventListenerAttached === false) {
+        for (let portraitFrame of portraitFrames) {
+            portraitFrame.addEventListener('click', clickChangeColor);
+        }
+
+        for (let fighter of fighters) {
+            fighter.addEventListener('click', selectionPhase)
+        }
+
+        for (let portrait of portraits) {
             portrait.addEventListener('click', clickSwellPortrait);
         }
-    }
-
-    laserFrame.animate(laserSwellKeyFrames, laserSwellAnimation);
-
-    for (let fighter of fighters) {
-        fighter.addEventListener('click', selectionPhase)
-    } 
+    }   
 }
 
 function selectionPhase(event) {
@@ -97,7 +156,6 @@ function selectionPhase(event) {
 } 
 
 function removeFrameSlantIn(event) {  
-    let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraitFrame = event.currentTarget;
 
     let removeSlantKeyframes = [
@@ -113,17 +171,28 @@ function removeFrameSlantIn(event) {
 
     let removeSlantAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
 
-    portraitFrame.animate(removeSlantKeyframes, removeSlantAnimation);
+    let removeSlantKeyframesStatic = [
+        { 
+            transform: 'skewX(0deg)',
+            width: '90%',
+        },
+    ];
+
+    let removeSlantAnimationStatic = { duration: 0, fill: 'forwards', direction: 'normal', };
+
+    if (mouseIn === undefined || mouseIn === false) {
+        portraitFrame.animate(removeSlantKeyframes, removeSlantAnimation);
+    } else {
+        portraitFrame.animate(removeSlantKeyframesStatic, removeSlantAnimationStatic);
+        mouseIn = false;
+    }
     portraitFrame.style.border = '3px solid #ffcece';
     portraitFrame.style.boxShadow = '0 0 32px #ff002bf8';
-
-    eventListenerAttached = true;
 }
 
 function restoreFrameSlantOut(event) {
     event.preventDefault();
 
-    let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraitFrame = event.currentTarget;
 
     let restoreSlantKeyframes = [
@@ -150,20 +219,16 @@ function clickChangeColor(event) {
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraitFrame = event.currentTarget;
 
-    for (let frame of portraitFrames) {
-        if (frame !== portraitFrame) {
-            frame.removeEventListener('click', clickChangeColor);
-        } else {
-            continue;
-        }
-    }
-
     portraitFrame.removeEventListener('mouseover', removeFrameSlantIn);
     portraitFrame.removeEventListener('mouseout', restoreFrameSlantOut);  
     portraitFrame.addEventListener('mouseout', selectionRetainFrameShapeOut);
     portraitFrame.addEventListener('mouseover', mouseHoverCheck);
     portraitFrame.style.border = '3px solid #ceffda';
     portraitFrame.style.boxShadow = '0 0 32px #00ff80f8';
+
+    for (let frame of portraitFrames) {
+        frame.removeEventListener('click', clickChangeColor);
+    }
 }
 
 function selectionRetainFrameShapeOut(event) {
@@ -183,7 +248,6 @@ function mouseHoverCheck() {
 function retainImageAngleIn(event) {
     event.preventDefault();
 
-    let portraits = document.getElementsByClassName('player-portraits');
     let portrait = event.currentTarget;
 
     let retainAngleKeyframes = [
@@ -198,15 +262,29 @@ function retainImageAngleIn(event) {
     ];
 
     let retainAngleAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    let retainAngleKeyframesStatic = [
+        { 
+            transform: 'skewX(360deg)',
+            right: '-20px',
+        },
+    ];
+
+    let retainAngleAnimationStatic = { duration: 0, fill: 'forwards', direction: 'normal', };
     
-    portrait.animate(retainAngleKeyframes, retainAngleAnimation);
+    if (mouseIn === undefined || mouseIn === false) {
+        portrait.animate(retainAngleKeyframes, retainAngleAnimation);
+    } else {
+        portrait.animate(retainAngleKeyframesStatic, retainAngleAnimationStatic);
+        mouseIn === false;
+    }
+
     portrait.style.boxShadow = '0 0 32px #ff002bf8 inset';
 }
 
 function retainImageAngleOut(event) {
     event.preventDefault();
 
-    let portraits = document.getElementsByClassName('player-portraits');
     let portrait = event.currentTarget;
 
     let retainAngleKeyframes = [
@@ -237,21 +315,20 @@ function clickSwellPortrait(event) {
         { transform: 'scale(1.1)' },
         { transform: 'scale(1)' },
     ];
-    let portraitSwellAnimation = { duration: 700, fill: 'forwards', };
-
-    for (let image of portraits) {
-        if (image !== portrait) {
-            image.removeEventListener('click', clickSwellPortrait);
-        } else {
-            continue;
-        }
-    }
+    let portraitSwellAnimation = { duration: 700, direction: 'normal', };  
 
     portrait.removeEventListener('mouseover', retainImageAngleIn);
     portrait.removeEventListener('mouseout', retainImageAngleOut);
     portrait.addEventListener('mouseout', selectionRetainImageShapeOut);
     portrait.style.boxShadow = '0 0 32px #00ff80f8 inset';
     portrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
+    portrait.style.transform = 'scale(1)';
+
+    for (let image of portraits) {
+        image.removeEventListener('click', clickSwellPortrait);
+    }
+
+    eventListenerAttached = true;
 }
 
 function selectionRetainImageShapeOut(event) {
@@ -262,7 +339,6 @@ function selectionRetainImageShapeOut(event) {
     portrait.style.transform = 'skewX(360deg)';
     portrait.style.right = '-20px';
 }
-
 
 
 function playSelectionAudio(playerSelection) {
@@ -340,7 +416,7 @@ function cpuSelectVisual(cpuSelection) {
             width: '90%',
         },
     ];
-    let removeSlantAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+    let removeSlantAnimation = { duration: 150, direction: 'normal', };
 
     let retainAngleKeyframes = [
         { 
@@ -352,63 +428,93 @@ function cpuSelectVisual(cpuSelection) {
             left: '-20px',
         },
     ];
-    let retainAngleAnimation = { duration: 150, fill: 'forwards', direction: 'normal', };
+    let retainAngleAnimation = { duration: 150, direction: 'normal', };
 
     let portraitSwellKeyframes = [
         { transform: 'scaleX(-1) scaleY(1)' },
         { transform: 'scaleX(-1.1) scaleY(1.1)' },
         { transform: 'scaleX(-1) scaleY(1)' },
     ];
-    let portraitSwellAnimation = { duration: 700, fill: 'forwards', };
+    let portraitSwellAnimation = { duration: 700, direction: 'normal', };
 
     switch(cpuSelection) {
         case 'rock':
             cpuPortraitFrames[0].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[0].style.transform = 'skewX(360deg)';
+            cpuPortraitFrames[0].style.width = '90%';
             cpuPortraitFrames[0].style.border = '3px solid #ceffda';
             cpuPortraitFrames[0].style.boxShadow = '0 0 32px #00ff80f8';
 
             cpuPortraits[0].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[0].style.transform = 'skewX(0deg)';
+            cpuPortraits[0].style.left = '-20px';
+
             cpuPortraits[0].animate(portraitSwellKeyframes, portraitSwellAnimation);
+            cpuPortraits[0].style.transform = 'scaleX(-1) scaleY(1)';
             cpuPortraits[0].style.boxShadow = '0 0 32px #00ff80f8 inset';
 
             break;
         case 'paper':
             cpuPortraitFrames[1].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[1].style.transform = 'skewX(360deg)';
+            cpuPortraitFrames[1].style.width = '90%';
             cpuPortraitFrames[1].style.border = '3px solid #ceffda';
             cpuPortraitFrames[1].style.boxShadow = '0 0 32px #00ff80f8';
 
             cpuPortraits[1].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[1].style.transform = 'skewX(0deg)';
+            cpuPortraits[1].style.left = '-20px';
+
             cpuPortraits[1].animate(portraitSwellKeyframes, portraitSwellAnimation);
+            cpuPortraits[1].style.transform = 'scaleX(-1) scaleY(1)';
             cpuPortraits[1].style.boxShadow = '0 0 32px #00ff80f8 inset';
 
             break;
         case 'scissors':
             cpuPortraitFrames[2].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[2].style.transform = 'skewX(360deg)';
+            cpuPortraitFrames[2].style.width = '90%';
             cpuPortraitFrames[2].style.border = '3px solid #ceffda';
             cpuPortraitFrames[2].style.boxShadow = '0 0 32px #00ff80f8';
 
             cpuPortraits[2].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[2].style.transform = 'skewX(0deg)';
+            cpuPortraits[2].style.left = '-20px';
+
             cpuPortraits[2].animate(portraitSwellKeyframes, portraitSwellAnimation);
+            cpuPortraits[2].style.transform = 'scaleX(-1) scaleY(1)';
             cpuPortraits[2].style.boxShadow = '0 0 32px #00ff80f8 inset';
 
             break;
         case 'lizard':
             cpuPortraitFrames[3].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[3].style.transform = 'skewX(360deg)';
+            cpuPortraitFrames[3].style.width = '90%';
             cpuPortraitFrames[3].style.border = '3px solid #ceffda';
             cpuPortraitFrames[3].style.boxShadow = '0 0 32px #00ff80f8';
 
             cpuPortraits[3].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[3].style.transform = 'skewX(0deg)';
+            cpuPortraits[3].style.left = '-20px';
+
             cpuPortraits[3].animate(portraitSwellKeyframes, portraitSwellAnimation);
+            cpuPortraits[3].style.transform = 'scaleX(-1) scaleY(1)';
             cpuPortraits[3].style.boxShadow = '0 0 32px #00ff80f8 inset';
 
             break;
         case 'spock':
             cpuPortraitFrames[4].animate(removeSlantKeyframes, removeSlantAnimation);
+            cpuPortraitFrames[4].style.transform = 'skewX(360deg)';
+            cpuPortraitFrames[4].style.width = '90%';
             cpuPortraitFrames[4].style.border = '3px solid #ceffda';
             cpuPortraitFrames[4].style.boxShadow = '0 0 32px #00ff80f8';
 
             cpuPortraits[4].animate(retainAngleKeyframes, retainAngleAnimation);
+            cpuPortraits[4].style.transform = 'skewX(0deg)';
+            cpuPortraits[4].style.left = '-20px';
+
             cpuPortraits[4].animate(portraitSwellKeyframes, portraitSwellAnimation);
+            cpuPortraits[4].style.transform = 'scaleX(-1) scaleY(1)';
             cpuPortraits[4].style.boxShadow = '0 0 32px #00ff80f8 inset';
 
             break;
@@ -431,8 +537,10 @@ function setContenders(playerSelection, cpuSelection) {
 
     let boutContainer = document.getElementById('bout-and-scoreboard-container-outer');
 
-    boutContainer.scrollIntoView({behavior: "smooth"});
-
+    if (window.innerWidth <= 507) {
+        boutContainer.scrollIntoView({behavior: 'smooth'});
+    }
+    
     for (let frame of contenderFrames) {
         frame.style.border = '3px solid #ffcece';
         frame.style.boxShadow = '0 0 64px #ff002bf8, 0 0 32px #ff002bf8 inset';
@@ -587,6 +695,8 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
         { boxShadow: '0 0 64px #ff002bf8, 0 0 32px #ff002bf8 inset' },
     ];
     let portraitLoserFlashAnimation = { duration: 500, direction: 'alternate', };
+
+    let scoreboard = document.getElementById('scoreboard');
     
     if(draw) {
         playerContenderPortrait.animate(portraitSwellKeyframes, portraitSwellAnimation);
@@ -628,8 +738,12 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
 }
 
 function lightPlayerLamps() {
-    let roundLampsPlayer = document.getElementsByClassName('round-bulbs-player');
+    let roundLampsPlayer = document.getElementsByClassName('round-lamps-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
+
+    if (window.innerWidth <= 1110 && newGame === false) {
+        scoreboard.scrollIntoView({behavior: 'smooth'});
+    }
 
     if (newGame) {
         for (let i = 0; i < playerWins; i++) {
@@ -648,7 +762,7 @@ function lightPlayerLamps() {
 }
 
 function lightCpuLamps() {
-    let roundLampsCpu = document.getElementsByClassName('round-bulbs-cpu');
+    let roundLampsCpu = document.getElementsByClassName('round-lamps-cpu');
     let roundLightCpu = document.getElementsByClassName('light-off-cpu');
 
     if (newGame) {
@@ -668,8 +782,7 @@ function lightCpuLamps() {
 }
 
 function prepareForNextRound(playerSelection, cpuSelection, draw) {
-    
-    let fighters = document.getElementsByTagName('button');
+    let header = document.getElementsByTagName('header');
 
     let contenderFrames = document.getElementsByClassName('contenders');
 
@@ -701,7 +814,7 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
             width: '60%',
         },
     ];
-    let restoreSlantAnimationCpu = { duration: 150, fill: 'forwards', direction: 'normal', };
+    let restoreSlantAnimationCpu = { duration: 150, direction: 'normal', };
 
     let retainAngleKeyframesCpu = [
         { 
@@ -713,7 +826,7 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
             left: '-40px',
         },
     ];
-    let retainAngleAnimationCpu = { duration: 150, fill: 'forwards', direction: 'normal', };
+    let retainAngleAnimationCpu = { duration: 150, direction: 'normal', };
 
     
     let restoreSlantKeyframesPlayer = [
@@ -739,6 +852,10 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
         },
     ];
     let retainAngleAnimationPlayer = { duration: 150, fill: 'forwards', direction: 'normal', };
+
+    if (window.innerWidth <= 1110) {
+        header[0].scrollIntoView({behavior: 'smooth'});
+    }
 
     if (playerDead) {
         playerContenderPortrait.style.border = '3px solid #444444';
@@ -771,10 +888,6 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
             continue;
         }
     }
-    
-    for (let i = 0; i < fighters.length; i++) { 
-        fighters[i].style.display = 'initial';
-    }
 
     for (let frame of contenderFrames) {
         frame.style.border = '3px solid #444444';
@@ -788,13 +901,13 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
 
     versusText.style.color = '#918f8f';
     versusText.style.textShadow = '2px 2px #444444';
-
-    if(mouseIn) {
+    
+    if (mouseIn === true) {
         playerPortraitFrames[playerSelectionFrameIndex].style.border = '3px solid #ffcece';
         playerPortraitFrames[playerSelectionFrameIndex].style.boxShadow = '0 0 32px #ff002bf8';
 
         playerPortraits[playerSelectionPortraitIndex].style.boxShadow = '0 0 32px #ff002bf8 inset';
-    } else {
+    } else if (mouseIn === false) {
         playerPortraitFrames[playerSelectionPortraitIndex].animate(restoreSlantKeyframesPlayer, restoreSlantAnimationPlayer);
         playerPortraitFrames[playerSelectionFrameIndex].style.border = '2px solid #444444';
         playerPortraitFrames[playerSelectionFrameIndex].style.boxShadow = 'none';
@@ -810,20 +923,24 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     for (let portraitFrame of playerPortraitFrames) {
         portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
         portraitFrame.addEventListener('mouseout', restoreFrameSlantOut);
-        portraitFrame.addEventListener('click', clickChangeColor);
     }
 
     for (let portrait of playerPortraits) {
         portrait.addEventListener('mouseover', retainImageAngleIn);
         portrait.addEventListener('mouseout', retainImageAngleOut);
-        portrait.addEventListener('click', clickSwellPortrait);
     }
 
     cpuPortraitFrames[cpuSelectionFrameIndex].style.border = '2px solid #444444';
     cpuPortraitFrames[cpuSelectionFrameIndex].style.boxShadow = 'none';
     cpuPortraits[cpuSelectionPortraitIndex].style.boxShadow = 'none';
+
     cpuPortraitFrames[cpuSelectionFrameIndex].animate(restoreSlantKeyframesCpu, restoreSlantAnimationCpu);
+    cpuPortraitFrames[cpuSelectionFrameIndex].style.transform = 'skewX(320deg)';
+    cpuPortraitFrames[cpuSelectionFrameIndex].style.width = '60%';
+
     cpuPortraits[cpuSelectionPortraitIndex].animate(retainAngleKeyframesCpu, retainAngleAnimationCpu);
+    cpuPortraits[cpuSelectionPortraitIndex].style.transform = 'skewX(40deg) scaleX(-1)';
+    cpuPortraits[cpuSelectionPortraitIndex].style.left = '-40px';
 
     if (newGame === false) {
         if (draw) {
@@ -835,23 +952,42 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     }
 
     newGame = false;
-    
-    setTimeout(beginGame, 2000);
+
+    setTimeout(beginGame, 1400);
+    setTimeout(unhideButtons, 3600);
 }
 
-function endGame(playerSelection, cpuSelection, draw) {
+function unhideButtons() {
+    let playerPortraitFrames = document.getElementsByClassName('player-fighters');
+    let playerPortraits = document.getElementsByClassName('player-portraits');
+
+    let fighters = document.getElementsByClassName('character-buttons');
+
+    for (let portrait of playerPortraits) {
+        portrait.addEventListener('click', clickSwellPortrait);
+    }
+
+    for (let portraitFrame of playerPortraitFrames) {
+        portraitFrame.addEventListener('click', clickChangeColor);
+    }
+    
+    for (let i = 0; i < fighters.length; i++) { 
+        fighters[i].style.display = 'initial';
+    }
+}
+
+function endGame() {
+    let boutContainer = document.getElementById('bout-and-scoreboard-container-outer');
+    
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
-
-    let playerBackgroundProperty = playerContenderPortrait.style.background;
-    let cpuBackgroundProperty = cpuContenderPortrait.style.background;
 
     let victorious = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victorious.mp3');
     let defeated = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
     
     let contenderPortraitGlowKeyframes = [
-        { boxShadow: '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset' },
-        { boxShadow: '0 0 64px #ffdb3b, 0 0 64px #ffdb3b inset' },
+        { boxShadow: '0 0 32px #ffdb3b, 0 0 32px #ffbb3b inset' },
+        { boxShadow: '0 0 64px #ffdb3b, 0 0 64px #ffbb3b inset' },
     ];
     let contenderPortraitGlowAnimation = { duration: 500, direction: 'alternate', iterations: 10 };
 
@@ -863,8 +999,8 @@ function endGame(playerSelection, cpuSelection, draw) {
     let loserPortraitDarkenAnimation = { duration: 1000, direction: 'normal' };
     
     if (playerWins === 2) {
-        playerContenderPortrait.style.border = '4px solid #fff1b5';
-        playerContenderPortrait.style.boxShadow = '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset';
+        playerContenderPortrait.style.border = '4px solid #fff2b5';
+        playerContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffbb3b inset';
         playerContenderPortrait.animate(contenderPortraitGlowKeyframes, contenderPortraitGlowAnimation);
 
         cpuContenderPortrait.style.border = '3px solid #444444';
@@ -875,8 +1011,8 @@ function endGame(playerSelection, cpuSelection, draw) {
 
         victorious.play();
     } else {
-        cpuContenderPortrait.style.border = '4px solid #fff1b5';
-        cpuContenderPortrait.style.boxShadow = '0 0 32px #ffdb3b, 0 0 32px #ffdb3b inset';
+        cpuContenderPortrait.style.border = '4px solid #fff2b5';
+        cpuContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffb13b inset';
         cpuContenderPortrait.animate(contenderPortraitGlowKeyframes, contenderPortraitGlowAnimation);
 
         playerContenderPortrait.style.border = '3px solid #444444';
@@ -888,15 +1024,21 @@ function endGame(playerSelection, cpuSelection, draw) {
         defeated.play();
     }
 
-    setTimeout(displayPlayAgain, 4000, playerSelection, cpuSelection, draw);
+    if (window.innerWidth <= 1110) {
+        boutContainer.scrollIntoView({behavior: 'smooth'});
+    }
+
+    setTimeout(displayPlayAgain, 4000);
 }
 
-function displayPlayAgain(playerSelection, cpuSelection, draw) {
+function displayPlayAgain() {
     let playAgainScreen = document.getElementById('play-again-container');
     let playAgainButton = document.getElementById('play-again-button');
 
+    playAgainButton.removeEventListener('click', animateButton);
     playAgainButton.addEventListener('click', playAgain);
     
+    playAgainButton.innerHTML = `<h4>PLAY <br>AGAIN</h4>`;
     playAgainScreen.style.display = 'table';
 }
 
@@ -908,6 +1050,8 @@ function playAgain (event) {
     roundNumber = 1;
 
     drawOccurredOnce = false;
+
+    eventListenerAttached = false;
 
     let draw = false;
         
@@ -922,7 +1066,18 @@ function playAgain (event) {
         },
     ];
 
-    let buttonClickAnimation = { duration: 100, direction: 'alternate' };
+    let buttonClickAnimation = { duration: 100, direction: 'alternate', };
+
+    let buttonTextShrinkKeyframes = [
+        {
+            fontSize: '2rem',
+        },
+        {
+            fontSize: '1.8rem',
+        },
+    ]
+
+    let buttonTextShrinkAnimation = { duration: 100, direction: 'alternate', };
 
     let playerNameplate = document.getElementById('player-nameplate');
     let cpuNameplate = document.getElementById('cpu-nameplate');
@@ -930,14 +1085,17 @@ function playAgain (event) {
     let playerSelection = playerNameplate.innerText;
     let cpuSelection = cpuNameplate.innerText;
 
+    let playAgainText = document.getElementsByTagName('h4');
+
     this.animate(buttonClickKeyframes, buttonClickAnimation);
+    playAgainText[0].animate(buttonTextShrinkKeyframes, buttonTextShrinkAnimation);
 
-    setTimeout(clearPlayAgain, 1000);
+    setTimeout(clearPlayAgain, 600);
 
-    setTimeout(lightPlayerLamps, 1500);
-    setTimeout(lightCpuLamps, 1500);
+    setTimeout(lightPlayerLamps, 1000);
+    setTimeout(lightCpuLamps, 1000);
 
-    setTimeout(prepareForNextRound, 2000, playerSelection, cpuSelection, draw);
+    setTimeout(prepareForNextRound, 1500, playerSelection, cpuSelection, draw);
 }
 
 function clearPlayAgain() {

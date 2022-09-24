@@ -7,6 +7,9 @@
 }
 
 body {
+    width: 100%;
+    height: 100%;
+
     font-family: 'Bebas Neue', 'Comic Sans MS', cursive;
     color:#ffffff;
     letter-spacing: 10px;
@@ -340,7 +343,7 @@ button {
 }
 
 #play-again-container {
-    position: absolute;
+    position: fixed;
     z-index: 2;
     
     background-color: #000000c5;
@@ -351,8 +354,6 @@ button {
     border: 2px solid #e6e3e3;
     box-sizing: border-box;
     box-shadow: 0 0 40px #a5a5a5, 0 0 40px #a5a5a5 inset;
-    
-    display: none;
 }
 
 #play-again-button {
@@ -434,7 +435,7 @@ button {
     height: 90px;
 }
 
-.round-bulbs {
+.round-lamps {
     width: 90px;
     height: 90px;
     
@@ -449,11 +450,11 @@ button {
     overflow: clip;
 }
 
-.round-bulbs-player {
+.round-lamps-player {
     float: left;
 }
 
-.round-bulbs-cpu {
+.round-lamps-cpu {
     float: right;
 }
 
@@ -462,23 +463,6 @@ button {
     height: 100%;
     background-color: #0000007e;
 }
-
-
-
-
-/* styling for lights switched on; use in js. */
-
-#light {
-    box-shadow: 0 0 32px #ffffff, 0 0 32px #ffffff inset;
-    border: 3px solid #b6b4b4;
-}
-
-#light1 {
-    background-color: #ffffff00;
-}
-
-
-
 
 
 /* Media Queries */
@@ -694,6 +678,14 @@ button {
 }
 
 @media screen and (max-width: 507px) {
+    body {
+        background: url('../images/fire-biggest.jpg') no-repeat center center;
+    }
+    
+    .main-section {
+        height: 100%;
+    }
+    
     .bout-and-scoreboard-container-inner > div {
         text-align: center;
     }
@@ -718,7 +710,7 @@ button {
         height: 50px;
     }
 
-    .round-lights {
+    .round-lamps {
         width: 64px;
         height: 64px;
     }
@@ -767,7 +759,7 @@ button {
 }
 
 @media screen and (max-width: 320px) {
-    .round-lights {
+    .round-lamps {
         width: 50px;
         height: 50px;
     }
@@ -780,5 +772,10 @@ button {
 
     body > div {
         width: 1920px;
+    }
+
+    #play-again-container {
+        width: 1920px;
+        height: 1080px;
     }
 }
