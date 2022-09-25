@@ -20,6 +20,7 @@ function animateButton (event) {
 
     let playAgainText = document.getElementById('play-again-button-text');
 
+    START_GAME.volume = 0.6;
     START_GAME.play();
     this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
     playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
@@ -350,7 +351,57 @@ function declareVictor(playerSelection, cpuSelection) {
     let win = null;
     let draw = false;
 
-    if (playerSelection === 'rock' && cpuSelection === 'paper') {
+    if (playerSelection === 'rock' && cpuSelection === "scissors" && playerWins === 1 || playerSelection === 'rock' && cpuSelection === "lizard" && playerWins === 1) {
+        ROCK_FINISHER.play(); 
+        win = true;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (playerSelection === 'paper' && cpuSelection === "rock" && playerWins === 1 || playerSelection === 'paper' && cpuSelection === "spock" && playerWins === 1) {
+        PAPER_FINISHER.play();
+        win = true;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (playerSelection === 'scissors' && cpuSelection === "paper" && playerWins === 1 || playerSelection === 'scissors' && cpuSelection === "lizard" && playerWins === 1) {
+        SCISSORS_FINISHER.play();
+        win = true;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (playerSelection === 'lizard' && cpuSelection === "paper" && playerWins === 1 || playerSelection === 'lizard' && cpuSelection === "spock" && playerWins === 1) {
+        LIZARD_FINISHER.play();
+        win = true;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (playerSelection === 'spock' && cpuSelection === "rock" && playerWins === 1 || playerSelection === 'spock' && cpuSelection === "scissors" && playerWins === 1) {
+        SPOCK_FINISHER.play();
+        win = true;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (cpuSelection === 'rock' && playerSelection === "scissors" && cpuWins === 1 || cpuSelection === 'rock' && playerSelection === "lizard" && cpuWins === 1) {
+        ROCK_FINISHER.play();
+        win = false;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (cpuSelection === 'paper' && playerSelection === "rock" && cpuWins === 1 || cpuSelection === 'paper' && playerSelection === "spock" && cpuWins === 1) {
+        PAPER_FINISHER.play();
+        win = false;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (cpuSelection === 'scissors' && playerSelection === "paper" && cpuWins === 1 || cpuSelection === 'scissors' && playerSelection === "lizard" && cpuWins === 1) {
+        SCISSORS_FINISHER.play();
+        win = false;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (cpuSelection === 'lizard' && playerSelection === "paper" && cpuWins === 1 || cpuSelection === 'lizard' && playerSelection === "spock" && cpuWins === 1) {
+        LIZARD_FINISHER.play();
+        win = false;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (cpuSelection === 'spock' && playerSelection === "rock" && cpuWins === 1 || cpuSelection === 'spock' && playerSelection === "scissors" && cpuWins === 1) {
+        SPOCK_FINISHER.play();
+        win = false;
+        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+    } else if (playerSelection === 'rock' && cpuSelection === 'paper') {
         ROCK_VS_PAPER_OUTCOME.play();
         win = false;
         setTimeout(highlightWinner, 2200, win, playerSelection, cpuSelection, draw);
@@ -748,6 +799,30 @@ function playFinalOutcomeSound() {
     }
 }
 
+function playFinisherSfx(playerSelection, cpuSelection) {
+    if (playerSelection === 'rock' && cpuSelection === 'scissors' || playerSelection === 'rock' && cpuSelection === 'lizard') {
+        SISYPHEAN_DESPAIR.play();
+    } else if (playerSelection === 'paper' && cpuSelection === 'rock' || playerSelection === 'paper' && cpuSelection === 'spock') {
+        TABULA_RASA.play();
+    } else if (playerSelection === 'scissors' && cpuSelection === 'paper' || playerSelection === 'scissors' && cpuSelection === 'lizard') {
+        ABHORRENT_SHEARS.play();
+    } else if (playerSelection === 'lizard' && cpuSelection === 'paper' || playerSelection === 'lizard' && cpuSelection === 'spock') {
+        HERALD_OF_RAGNAROK.play();
+    } else if (playerSelection === 'spock' && cpuSelection === 'rock' || playerSelection === 'spock' && cpuSelection === 'scissors') {
+        LIVE_LONG_AND_SUFFER.play();
+    } else if (cpuSelection === 'rock' && playerSelection === 'scissors' || cpuSelection === 'rock' && playerSelection === 'lizard') {
+        SISYPHEAN_DESPAIR.play();
+    } else if (cpuSelection === 'paper' && playerSelection === 'rock' || cpuSelection === 'paper' && playerSelection === 'spock') {
+        TABULA_RASA.play();
+    } else if (cpuSelection === 'scissors' && playerSelection === 'paper' || cpuSelection === 'scissors' && playerSelection === 'lizard') {
+        ABHORRENT_SHEARS.play();
+    } else if (cpuSelection === 'lizard' && playerSelection === 'paper' || cpuSelection === 'lizard' && playerSelection === 'spock') {
+        HERALD_OF_RAGNAROK.play();
+    } else if (cpuSelection === 'spock' && playerSelection === 'rock' || cpuSelection === 'spock' && playerSelection === 'scissors') {
+        LIVE_LONG_AND_SUFFER.play();
+    }
+}
+
 function displayPlayAgain() {
     let playAgainScreen = document.getElementById('play-again-container');
     let playAgainButton = document.getElementById('play-again-button');
@@ -780,6 +855,7 @@ function playAgain (event) {
 
     let playAgainText = document.getElementById('play-again-button-text');
 
+    START_GAME.volume = 0.6;
     START_GAME.play();
     this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
     playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);

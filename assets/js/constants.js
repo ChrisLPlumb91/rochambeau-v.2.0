@@ -281,8 +281,17 @@ const LAMP_ON = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/asse
 
 const RESET_SWISH = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/reset-swish.mp3')
 
-const ABHORRENT_SHEARS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/abhorrent-shears.mp3');
+const ROCK_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-rock.mp3');
+const PAPER_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-paper.mp3');
+const SCISSORS_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-scissors.mp3');
+const LIZARD_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-lizard.mp3');
+const SPOCK_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate.spock.mp3');
 
+const SISYPHEAN_DESPAIR = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/sisyphean-despair.mp3');
+const TABULA_RASA = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/tabula-rasa.mp3');
+const ABHORRENT_SHEARS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/abhorrent-shears.mp3');
+const HERALD_OF_RAGNAROK = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/herald-of-ragnarok.mp3');
+const LIVE_LONG_AND_SUFFER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/live-long-and-suffer.mp3');
 
 const VICTORIOUS = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/victorious.mp3');
 const DEFEATED = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/defeated.mp3');
