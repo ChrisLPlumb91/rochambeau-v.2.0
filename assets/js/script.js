@@ -26,7 +26,7 @@ function animateButton (event) {
     playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
     
     setTimeout(clearPlayAgain, 600);
-    setTimeout(beginGame, 600);
+    setTimeout(beginGame, 800);
 }
 
 function beginGame(event) {   
@@ -354,53 +354,53 @@ function declareVictor(playerSelection, cpuSelection) {
     if (playerSelection === 'rock' && cpuSelection === "scissors" && playerWins === 1 || playerSelection === 'rock' && cpuSelection === "lizard" && playerWins === 1) {
         ROCK_FINISHER.play(); 
         win = true;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5700, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 6800, win, playerSelection, cpuSelection, draw);
     } else if (playerSelection === 'paper' && cpuSelection === "rock" && playerWins === 1 || playerSelection === 'paper' && cpuSelection === "spock" && playerWins === 1) {
         PAPER_FINISHER.play();
         win = true;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5400, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 6400, win, playerSelection, cpuSelection, draw);
     } else if (playerSelection === 'scissors' && cpuSelection === "paper" && playerWins === 1 || playerSelection === 'scissors' && cpuSelection === "lizard" && playerWins === 1) {
         SCISSORS_FINISHER.play();
         win = true;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5800, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 7000, win, playerSelection, cpuSelection, draw);
     } else if (playerSelection === 'lizard' && cpuSelection === "paper" && playerWins === 1 || playerSelection === 'lizard' && cpuSelection === "spock" && playerWins === 1) {
         LIZARD_FINISHER.play();
         win = true;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5700, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 8700, win, playerSelection, cpuSelection, draw);
     } else if (playerSelection === 'spock' && cpuSelection === "rock" && playerWins === 1 || playerSelection === 'spock' && cpuSelection === "scissors" && playerWins === 1) {
         SPOCK_FINISHER.play();
         win = true;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 6200, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 9600, win, playerSelection, cpuSelection, draw);
     } else if (cpuSelection === 'rock' && playerSelection === "scissors" && cpuWins === 1 || cpuSelection === 'rock' && playerSelection === "lizard" && cpuWins === 1) {
         ROCK_FINISHER.play();
         win = false;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5700, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 6800, win, playerSelection, cpuSelection, draw);
     } else if (cpuSelection === 'paper' && playerSelection === "rock" && cpuWins === 1 || cpuSelection === 'paper' && playerSelection === "spock" && cpuWins === 1) {
         PAPER_FINISHER.play();
         win = false;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5400, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 6400, win, playerSelection, cpuSelection, draw);
     } else if (cpuSelection === 'scissors' && playerSelection === "paper" && cpuWins === 1 || cpuSelection === 'scissors' && playerSelection === "lizard" && cpuWins === 1) {
         SCISSORS_FINISHER.play();
         win = false;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5800, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 7000, win, playerSelection, cpuSelection, draw);
     } else if (cpuSelection === 'lizard' && playerSelection === "paper" && cpuWins === 1 || cpuSelection === 'lizard' && playerSelection === "spock" && cpuWins === 1) {
         LIZARD_FINISHER.play();
         win = false;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 5700, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 8700, win, playerSelection, cpuSelection, draw);
     } else if (cpuSelection === 'spock' && playerSelection === "rock" && cpuWins === 1 || cpuSelection === 'spock' && playerSelection === "scissors" && cpuWins === 1) {
         SPOCK_FINISHER.play();
         win = false;
-        setTimeout(playFinisherSfx, 3000, playerSelection, cpuSelection);
-        setTimeout(highlightWinner, 3000, win, playerSelection, cpuSelection, draw);
+        setTimeout(playFinisherSfx, 6200, playerSelection, cpuSelection);
+        setTimeout(highlightWinner, 9600, win, playerSelection, cpuSelection, draw);
     } else if (playerSelection === 'rock' && cpuSelection === 'paper') {
         ROCK_VS_PAPER_OUTCOME.play();
         win = false;
@@ -865,7 +865,7 @@ function playAgain (event) {
     setTimeout(lightPlayerLamps, 1000);
     setTimeout(lightCpuLamps, 1000);
 
-    setTimeout(prepareForNextRound, 1500, playerSelection, cpuSelection, draw);
+    setTimeout(prepareForNextRound, 1300, playerSelection, cpuSelection, draw);
 }
 
 function clearPlayAgain() {

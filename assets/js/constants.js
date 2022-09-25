@@ -285,7 +285,7 @@ const ROCK_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.
 const PAPER_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-paper.mp3');
 const SCISSORS_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-scissors.mp3');
 const LIZARD_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-lizard.mp3');
-const SPOCK_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate.spock.mp3');
+const SPOCK_FINISHER = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/ultimate-spock.mp3');
 
 const SISYPHEAN_DESPAIR = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/sisyphean-despair.mp3');
 const TABULA_RASA = new Audio('https://chrislplumb91.github.io/rochambeau-v.2.0/assets/media/tabula-rasa.mp3');
