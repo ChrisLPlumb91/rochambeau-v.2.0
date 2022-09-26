@@ -83,6 +83,7 @@ function beginGame(event) {
         event.preventDefault();
     }
     
+    let playerFightersContainer = document.getElementById('player-fighters-container');
     let laserFrame = document.getElementById('player-laser-box');
     let playerLaser = document.getElementById('player-title');
     let portraitFrames = document.getElementsByClassName('player-fighters');
@@ -94,6 +95,10 @@ function beginGame(event) {
 
     laserFrame.animate(LASER_SWELL_KEYFRAMES, LASER_SWELL_ANIMATION);
     playerLaser.animate(LASER_SWELL_KEYFRAMES, LASER_SWELL_ANIMATION);
+
+    if (window.innerWidth <= 507) {
+        playerFightersContainer.scrollIntoView({behavior: 'smooth'});
+    }
 
     if (eventListenerAttached === false && mouseIn === null && playerKO === false) {
         for (let portraitFrame of portraitFrames) {
@@ -633,6 +638,7 @@ function lightPlayerLamps() {
             roundLightPlayer[j].style.backgroundColor = '#ffffff00';
 
             if (playerWins - j === 1) {
+                LAMP_ON.volume = 0.8;
                 LAMP_ON.play();
             } 
         }
@@ -659,6 +665,7 @@ function lightCpuLamps() {
             roundLampsCpu[j].style.boxShadow = '0 0 32px #ffffff, 0 0 32px #ffffff inset';
             roundLightCpu[j].style.backgroundColor = '#ffffff00';
             if (cpuWins - j === 1) {
+                LAMP_ON.volume = 0.8;
                 LAMP_ON.play();
             }
         }
@@ -848,6 +855,7 @@ function endGame() {
         
         playerKO = true;
 
+        DEFEAT_STING.volume = 0.8;
         DEFEAT_STING.play();
         setTimeout(playFinalOutcomeSound, 1000);
     }
