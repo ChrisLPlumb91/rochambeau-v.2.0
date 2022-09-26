@@ -46,12 +46,11 @@ function animateButton(event) {
         beginGameButton.removeEventListener('click', animateButton);
         beginGameButton.removeEventListener('keydown', animateButton);
     }
-
-    return false;
 }
 
 function toggleMute() {
-    if (soundOn === true) {
+    if (soundOn) {
+        SOUND_BUTTON.play();
         soundButton.animate(MUTE_BUTTON_CLICK_KEYFRAMES, MUTE_BUTTON_CLICK_ANIMATION);
         soundButton.style.backgroundColor = '#ff0000';
         soundButton.style.border = '2px solid #ad0a3b';
@@ -64,12 +63,13 @@ function toggleMute() {
 
         soundOn = false;
     } else {
+        SOUND_BUTTON.play();
         soundButton.animate(SOUND_BUTTON_CLICK_KEYFRAMES, SOUND_BUTTON_CLICK_ANIMATION);
         soundButton.style.backgroundColor = '#00ff80';
         soundButton.style.border = '2px solid #0aad49';
         soundButton.style.boxShadow = '2px 2px #01773c, 0 0 16px #01773c inset';
         soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-
+        
         for (let i = 0; i < sounds.length; i++) {
             sounds[i].muted = false;
         }
