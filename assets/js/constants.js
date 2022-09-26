@@ -24,6 +24,56 @@ const BUTTON_TEXT_SHRINK_KEYFRAMES = [
 
 const BUTTON_TEXT_SHRINK_ANIMATION = { duration: 100, direction: 'alternate', };
 
+const MUTE_BUTTON_CLICK_KEYFRAMES = [
+    {
+        boxShadow: '1px 1px #01773c, 0 0 16px #01773c inset',
+        left:'1px',
+        top: '1px',
+    },
+    {
+        boxShadow: '0 0 16px #01773c inset',
+        left:'2px',
+        top: '2px',
+    },
+    {
+        boxShadow: '1px 1px #01773c, 0 0 16px #01773c inset',
+        left:'1px',
+        top: '1px',
+    },
+    {
+        boxShadow: '2px 2px #01773c, 0 0 16px #01773c inset',
+        left:'0',
+        top: '0',
+    },
+]
+
+const MUTE_BUTTON_CLICK_ANIMATION = { duration: 100, direction: 'normal' };
+
+const SOUND_BUTTON_CLICK_KEYFRAMES = [
+    {
+        boxShadow: '1px 1px #77011e, 0 0 16px #77011e inset',
+        left:'1px',
+        top: '1px',
+    },
+    {
+        boxShadow: '0 0 16px #77011e inset',
+        left:'2px',
+        top: '2px',
+    },
+    {
+        boxShadow: '1px 1px #77011e, 0 0 16px #77011e inset',
+        left:'1px',
+        top: '1px',
+    },
+    {
+        boxShadow: '2px 2px #77011e, 0 0 16px #77011e inset',
+        left:'0',
+        top: '0',
+    },
+]
+
+const SOUND_BUTTON_CLICK_ANIMATION = { duration: 100, direction: 'normal' };
+
 const LASER_SWELL_KEYFRAMES = [
     { 
         boxShadow: '0 0 32px #00ff80f8, 0 0 32px #00ff80f8 inset', 

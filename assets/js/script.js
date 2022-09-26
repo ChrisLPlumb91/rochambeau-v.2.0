@@ -1,5 +1,13 @@
 let newGame = null;
 
+let soundOn = true;
+
+let sounds = [START_GAME, MOUSEOVER_SWISH, MOUSEOUT_SWISH, SELECT_YOUR_FIGHTER, DRUM, ROCK_ANNOUNCE, PAPER_ANNOUNCE, SCISSORS_ANNOUNCE, LIZARD_ANNOUNCE, SPOCK_ANNOUNCE, 
+ROUND_ONE, ROUND_TWO, FINAL_ROUND, ELECTRIC_SFX, ROCK_VS_PAPER_OUTCOME, ROCK_VS_SCISSORS_OUTCOME, ROCK_VS_LIZARD_OUTCOME, ROCK_VS_SPOCK_OUTCOME, PAPER_VS_SCISSORS_OUTCOME,
+PAPER_VS_LIZARD_OUTCOME, PAPER_VS_SPOCK_OUTCOME, SCISSORS_VS_LIZARD_OUTCOME, SCISSORS_VS_SPOCK_OUTCOME, LIZARD_VS_SPOCK_OUTCOME, DRAW_ANNOUNCE, CLASH_SOUND, LAMP_ON,
+RESET_SWISH, ROCK_FINISHER, PAPER_FINISHER, SCISSORS_FINISHER, LIZARD_FINISHER, SPOCK_FINISHER, SISYPHEAN_DESPAIR, TABULA_RASA, ABHORRENT_SHEARS, HERALD_OF_RAGNAROK,
+LIVE_LONG_AND_SUFFER, VICTORIOUS, DEFEATED, VICTORY_STING, DEFEAT_STING, LAMP_OFF];
+
 let playerWins = 0;
 let cpuWins = 0;
 let roundNumber = 1;
@@ -12,12 +20,15 @@ let playerKO = false;
 let cpuKO = false;
 
 let beginGameButton = document.getElementById('play-again-button');
+let soundButton = document.getElementById('sound-button');
 
 beginGameButton.addEventListener('click', animateButton);
 beginGameButton.addEventListener('keydown', animateButton);
 beginGameButton.focus();
 
-function animateButton (event) {
+soundButton.addEventListener('click', toggleMute);
+
+function animateButton(event) {
     event.preventDefault();
     
     if (event.key === "Enter" || event.type === 'click') {
@@ -37,6 +48,34 @@ function animateButton (event) {
     }
 
     return false;
+}
+
+function toggleMute() {
+    if (soundOn === true) {
+        soundButton.animate(MUTE_BUTTON_CLICK_KEYFRAMES, MUTE_BUTTON_CLICK_ANIMATION);
+        soundButton.style.backgroundColor = '#ff0000';
+        soundButton.style.border = '2px solid #ad0a3b';
+        soundButton.style.boxShadow = '2px 2px #77011e, 0 0 16px #77011e inset';
+        soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        
+        for (let i = 0; i < sounds.length; i++) {
+            sounds[i].muted = true;
+        }
+
+        soundOn = false;
+    } else {
+        soundButton.animate(SOUND_BUTTON_CLICK_KEYFRAMES, SOUND_BUTTON_CLICK_ANIMATION);
+        soundButton.style.backgroundColor = '#00ff80';
+        soundButton.style.border = '2px solid #0aad49';
+        soundButton.style.boxShadow = '2px 2px #01773c, 0 0 16px #01773c inset';
+        soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+
+        for (let i = 0; i < sounds.length; i++) {
+            sounds[i].muted = false;
+        }
+
+        soundOn = true;
+    }
 }
 
 function beginGame(event) {   

@@ -84,6 +84,8 @@ p {
 header {
     width: 100%;
     height: 185px;
+
+    position: relative;
 }
 
 section > .table-cell-divs {
@@ -97,6 +99,54 @@ button {
     background: transparent;
 
     cursor: pointer;
+}
+
+#sound-button-container-outer {
+    width: 20%;
+    height: 185px;
+
+    float: left;
+}
+
+#sound-button-container-inner {
+    width: 100%;
+    height: 100%;
+}
+
+#sound-button-box-outer {
+    width: 60px;
+    height: 50px;
+
+    position: relative
+}
+
+#sound-button-box-inner {
+    width: 100%;
+    height: 100%;
+}
+
+#sound-button {
+    width: 60px;
+    height: 50px;
+
+    border: 2px solid #0aad49;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 2px 2px #01773c, 0 0 16px #01773c inset;
+
+    font-family: 'Bebas Neue', 'Comic Sans MS', cursive;
+    color:#ffffff;
+    letter-spacing: 5px;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px #444444;
+
+    background-color: #00ff80;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 #play-again-container {
@@ -132,11 +182,15 @@ button {
 }
 
 .title-container-outer {
-    height: 100%;
+    height: 185px;
+    width: 60%;
+
+    float: left;
 }
 
 .title-container-inner {
-    height: 100%;
+    width: 100%;
+    height: 185px;
 }
 
 
@@ -651,6 +705,16 @@ button {
     }
 }
 
+@media screen and (max-width: 944px) {
+    #sound-button-container-outer {
+        width: 10%;
+    }
+
+    .title-container-outer {
+        width: 80%;
+    }
+}
+
 @media screen and (max-width: 928px) {
     body {
         background: url(../images/fire-bigger.jpg) no-repeat center center;
@@ -678,6 +742,33 @@ button {
 
     .cpu-fighters-container-outer {
         right: 0;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    #sound-button-container-inner > div {
+        vertical-align: bottom;
+    }
+
+    #sound-button-box-outer {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 712px) {
+    #sound-button-container-outer {
+        width: 0;
+    }
+
+    #sound-button-box-outer {
+        position: absolute;
+
+        top: 104px;
+        left: 5px;
+    }
+
+    .title-container-outer {
+        width: 100%;
     }
 }
 
@@ -816,6 +907,10 @@ button {
 }
 
 @media screen and (max-width: 320px) {
+    #sound-button-box-outer {
+        top: 10px;
+    }
+    
     .round-lamps {
         width: 50px;
         height: 50px;
