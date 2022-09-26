@@ -14,19 +14,29 @@ let cpuKO = false;
 let beginGameButton = document.getElementById('play-again-button');
 
 beginGameButton.addEventListener('click', animateButton);
+beginGameButton.addEventListener('keydown', animateButton);
+beginGameButton.focus();
 
 function animateButton (event) {
     event.preventDefault();
-
-    let playAgainText = document.getElementById('play-again-button-text');
-
-    START_GAME.volume = 0.6;
-    START_GAME.play();
-    this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
-    playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
     
-    setTimeout(clearPlayAgain, 600);
-    setTimeout(beginGame, 800);
+    if (event.key === "Enter" || event.type === 'click') {
+
+        let playAgainText = document.getElementById('play-again-button-text');
+
+        START_GAME.volume = 0.6;
+        START_GAME.play();
+        this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
+        playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
+    
+        setTimeout(clearPlayAgain, 600);
+        setTimeout(beginGame, 800);
+
+        beginGameButton.removeEventListener('click', animateButton);
+        beginGameButton.removeEventListener('keydown', animateButton);
+    }
+
+    return false;
 }
 
 function beginGame(event) {   
@@ -46,7 +56,7 @@ function beginGame(event) {
     laserFrame.animate(LASER_SWELL_KEYFRAMES, LASER_SWELL_ANIMATION);
     playerLaser.animate(LASER_SWELL_KEYFRAMES, LASER_SWELL_ANIMATION);
 
-    if (eventListenerAttached === false) {
+    if (eventListenerAttached === false && mouseIn === null && playerKO === false) {
         for (let portraitFrame of portraitFrames) {
             portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
             portraitFrame.addEventListener('mouseout', restoreFrameSlantOut);
@@ -57,8 +67,20 @@ function beginGame(event) {
             portrait.addEventListener('mouseout', retainImageAngleOut);
         }
 
+        eventListenerAttached = true;
+
         setTimeout(initialClickListenersAttach, 2200);
     }
+    
+    if (eventListenerAttached === false && mouseIn === true) {
+        setTimeout(setEventListenerAttachedTrue, 2500);
+    } else if (eventListenerAttached === false && mouseIn === false) {
+        eventListenerAttached = true;
+    } 
+}
+
+function setEventListenerAttachedTrue() {
+    eventListenerAttached = true;
 }
 
 function initialClickListenersAttach() {
@@ -66,18 +88,16 @@ function initialClickListenersAttach() {
     let portraits = document.getElementsByClassName('player-portraits');
     let fighters = document.getElementsByClassName('character-buttons');
 
-    if (eventListenerAttached === false) {
-        for (let portraitFrame of portraitFrames) {
-            portraitFrame.addEventListener('click', clickChangeColor);
-        }
+    for (let portraitFrame of portraitFrames) {
+        portraitFrame.addEventListener('click', clickChangeColor);
+    }
 
-        for (let fighter of fighters) {
-            fighter.addEventListener('click', selectionPhase)
-        }
+    for (let fighter of fighters) {
+        fighter.addEventListener('click', selectionPhase)
+    }
 
-        for (let portrait of portraits) {
-            portrait.addEventListener('click', clickSwellPortrait);
-        }
+    for (let portrait of portraits) {
+        portrait.addEventListener('click', clickSwellPortrait);
     }   
 }
 
@@ -140,8 +160,11 @@ function restoreFrameSlantOut(event) {
     portraitFrame.animate(RESTORE_SLANT_KEYFRAMES, RESTORE_SLANT_ANIMATION);
     portraitFrame.style.border = '2px solid #444444';
     portraitFrame.style.boxShadow = 'none';
-    MOUSEOUT_SWISH.volume = 0.5;
-    MOUSEOUT_SWISH.play();
+
+    if (mouseIn === true && eventListenerAttached === true || mouseIn === false && eventListenerAttached === true || mouseIn === null) {
+        MOUSEOUT_SWISH.volume = 0.5;
+        MOUSEOUT_SWISH.play();
+    }
 }
 
 function clickChangeColor(event) {
@@ -219,8 +242,6 @@ function clickSwellPortrait(event) {
     for (let image of portraits) {
         image.removeEventListener('click', clickSwellPortrait);
     }
-
-    eventListenerAttached = true;
 }
 
 function selectionRetainImageShapeOut(event) {
@@ -492,7 +513,11 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
 
-    let scoreboard = document.getElementById('scoreboard');
+    let finisherMessageContainer = document.getElementById('ultimate-finisher-message-container');
+    let finisherMessage = document.getElementById('ultimate-finisher-message');
+
+    finisherMessageContainer.style.display = 'none';
+    finisherMessage.innerText = '';
     
     if(draw) {
         playerContenderPortrait.animate(BATTLE_PORTRAIT_SWELL_KEYFRAMES, BATTLE_PORTRAIT_SWELL_ANIMATION);
@@ -694,6 +719,8 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     playerPortraitFrames[playerSelectionFrameIndex].removeEventListener('mouseout', selectionRetainFrameShapeOut);
     playerPortraits[playerSelectionPortraitIndex].removeEventListener('mouseover', selectionRetainImageShapeOut);
 
+    eventListenerAttached = false;
+
     for (let portraitFrame of playerPortraitFrames) {
         portraitFrame.addEventListener('mouseover', removeFrameSlantIn);
         portraitFrame.addEventListener('mouseout', restoreFrameSlantOut);
@@ -723,6 +750,8 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
         } else {
             setTimeout(roundAudio, 500, ++roundNumber);
         }
+    } else {
+        mouseIn = null;
     }
 
     newGame = false;
@@ -800,26 +829,59 @@ function playFinalOutcomeSound() {
 }
 
 function playFinisherSfx(playerSelection, cpuSelection) {
+    let finisherMessageContainer = document.getElementById('ultimate-finisher-message-container');
+    let finisherMessage = document.getElementById('ultimate-finisher-message');
+
     if (playerSelection === 'rock' && cpuSelection === 'scissors' || playerSelection === 'rock' && cpuSelection === 'lizard') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'SISYPHEAN DESPAIR';
         SISYPHEAN_DESPAIR.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_SHORT_ANIMATION);
     } else if (playerSelection === 'paper' && cpuSelection === 'rock' || playerSelection === 'paper' && cpuSelection === 'spock') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'TABULA RASA';
         TABULA_RASA.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_VERY_SHORT_ANIMATION);
     } else if (playerSelection === 'scissors' && cpuSelection === 'paper' || playerSelection === 'scissors' && cpuSelection === 'lizard') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'ABHORRENT SHEARS';
         ABHORRENT_SHEARS.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_SHORT_ANIMATION);
     } else if (playerSelection === 'lizard' && cpuSelection === 'paper' || playerSelection === 'lizard' && cpuSelection === 'spock') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'HERALD OF RAGNAROK';
         HERALD_OF_RAGNAROK.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_MID_ANIMATION);
     } else if (playerSelection === 'spock' && cpuSelection === 'rock' || playerSelection === 'spock' && cpuSelection === 'scissors') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'LIVE LONG AND SUFFER';
         LIVE_LONG_AND_SUFFER.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_LONG_ANIMATION);
     } else if (cpuSelection === 'rock' && playerSelection === 'scissors' || cpuSelection === 'rock' && playerSelection === 'lizard') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'SISYPHEAN DESPAIR';
         SISYPHEAN_DESPAIR.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_SHORT_ANIMATION);
     } else if (cpuSelection === 'paper' && playerSelection === 'rock' || cpuSelection === 'paper' && playerSelection === 'spock') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'TABULA RASA';
         TABULA_RASA.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_VERY_SHORT_ANIMATION);
     } else if (cpuSelection === 'scissors' && playerSelection === 'paper' || cpuSelection === 'scissors' && playerSelection === 'lizard') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'ABHORRENT SHEARS';
         ABHORRENT_SHEARS.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_SHORT_ANIMATION);
     } else if (cpuSelection === 'lizard' && playerSelection === 'paper' || cpuSelection === 'lizard' && playerSelection === 'spock') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'HERALD OF RAGNAROK';
         HERALD_OF_RAGNAROK.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_MID_ANIMATION);
     } else if (cpuSelection === 'spock' && playerSelection === 'rock' || cpuSelection === 'spock' && playerSelection === 'scissors') {
+        finisherMessageContainer.style.display = 'inline-block';
+        finisherMessage.innerText = 'LIVE LONG AND SUFFER';
         LIVE_LONG_AND_SUFFER.play();
+        document.body.animate(SHAKE_SCREEN_KEYFRAMES, SHAKE_SCREEN_LONG_ANIMATION);
     }
 }
 
@@ -827,45 +889,53 @@ function displayPlayAgain() {
     let playAgainScreen = document.getElementById('play-again-container');
     let playAgainButton = document.getElementById('play-again-button');
 
-    playAgainButton.removeEventListener('click', animateButton);
     playAgainButton.addEventListener('click', playAgain);
+    playAgainButton.addEventListener('keydown', playAgain);
     
     playAgainButton.innerHTML = `<h4 id="play-again-button-text">PLAY <br>AGAIN</h4>`;
     playAgainScreen.style.display = 'table';
+
+    playAgainButton.focus();
 }
 
 function playAgain (event) {
     event.preventDefault();
 
-    newGame = true;
+    if (event.key === 'Enter' || event.type === 'click');
+    {   
+        event.preventDefault();
+
+        newGame = true;
         
-    roundNumber = 1;
+        roundNumber = 1;
 
-    drawOccurredOnce = false;
+        drawOccurredOnce = false;
+        eventListenerAttached = false;
 
-    eventListenerAttached = false;
+        let draw = false;
 
-    let draw = false;
+        let playerNameplate = document.getElementById('player-nameplate');
+        let cpuNameplate = document.getElementById('cpu-nameplate');
 
-    let playerNameplate = document.getElementById('player-nameplate');
-    let cpuNameplate = document.getElementById('cpu-nameplate');
+        let playerSelection = playerNameplate.innerText;
+        let cpuSelection = cpuNameplate.innerText;
 
-    let playerSelection = playerNameplate.innerText;
-    let cpuSelection = cpuNameplate.innerText;
+        let playAgainText = document.getElementById('play-again-button-text');
 
-    let playAgainText = document.getElementById('play-again-button-text');
+        START_GAME.volume = 0.6;
+        START_GAME.play();
+        this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
+        playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
 
-    START_GAME.volume = 0.6;
-    START_GAME.play();
-    this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
-    playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
+        setTimeout(clearPlayAgain, 600);
 
-    setTimeout(clearPlayAgain, 600);
+        setTimeout(lightPlayerLamps, 1000);
+        setTimeout(lightCpuLamps, 1000);
 
-    setTimeout(lightPlayerLamps, 1000);
-    setTimeout(lightCpuLamps, 1000);
-
-    setTimeout(prepareForNextRound, 1300, playerSelection, cpuSelection, draw);
+        setTimeout(prepareForNextRound, 1300, playerSelection, cpuSelection, draw);
+    }  
+    
+    return false;
 }
 
 function clearPlayAgain() {

@@ -217,9 +217,28 @@ const RETAIN_ANGLE_KEYFRAMES_PLAYER = [
         right: '-40px',
     },
 ];
-// END OF POSSIBLE ERROR.
 
 const RETAIN_ANGLE_ANIMATION_PLAYER = { duration: 150, fill: 'forwards', direction: 'normal', };
+// END OF POSSIBLE ERROR.
+
+const SHAKE_SCREEN_KEYFRAMES = [
+    { transform: 'translate(1px, 1px) rotate(0deg)' },
+    { transform: 'translate(-1px, -2px) rotate(-1deg)' },
+    { transform: 'translate(-3px, 0px) rotate(1deg)' },
+    { transform: 'translate(3px, 2px) rotate(0deg)' },
+    { transform: 'translate(1px, -1px) rotate(1deg)' },
+    { transform: 'translate(-1px, 2px) rotate(-1deg)' },
+    { transform: 'translate(-3px, 1px) rotate(0deg)' },
+    { transform: 'translate(3px, 1px) rotate(-1deg)' },
+    { transform: 'translate(-1px, -1px) rotate(1deg)' },
+    { transform: 'translate(1px, 2px) rotate(0deg)' },
+    { transform: 'translate(1px, -2px) rotate(-1deg)' },
+];
+
+const SHAKE_SCREEN_VERY_SHORT_ANIMATION = { duration: 700, direction: 'alternate'};
+const SHAKE_SCREEN_SHORT_ANIMATION = { duration: 1000, direction: 'alternate'};
+const SHAKE_SCREEN_MID_ANIMATION = { duration: 2600, direction: 'alternate'};
+const SHAKE_SCREEN_LONG_ANIMATION = { duration: 3000, direction: 'alternate'};
 
 const WINNER_PORTRAIT_GLOW_KEYFRAMES = [
     { boxShadow: '0 0 32px #ffdb3b, 0 0 32px #ffbb3b inset' },
