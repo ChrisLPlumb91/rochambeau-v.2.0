@@ -1,108 +1,133 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Rochambeau v2.0
 
-Welcome ChrisLPlumb91,
+From the Tao came One, and from the One came Two. From the Two, there came Three: The Rock, The Paper, and the Scissors, and glorious, fiery combat immediately ensued. This eternal struggle for supremacy has since intensified with the appearance of two new challengers: a lizard, and Spock from Star Trek. 
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+From whence did these mysterious opponents come? What is Tao?, What kind of lizard is lizard?, How is a piece of paper or a tiny lizard any match for Spock from Star Trek?, Are you sure you're getting enough sleep, Chris? - All of these questions, and many more, will <em>not</em> be answered, in ROCHAMBEAU V2.0.
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+ROCHAMBEAU V2.0 is an interactive webpage that enables you to play a pulse-pounding game of Rock, Paper, Scissors, Lizard, Spock against an unpredictable computer opponent.
 
-## Gitpod Reminders
+It is intended to be humorously extreme and epic, as well to graphically resemble a wrestling promotion, and to play similarly to a fighting videogame.
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+<hr>
 
-`python3 -m http.server`
+## Technologies used
+<ul>
+    <li>Hypertext Markup Language (HTML)</li>
+    <li>Cascading Style Sheets (CSS)</li>
+    <li>JavaScript</li>
+    <li>Markdown</li>
+    <li>GitHub</li>
+    <li>GitPod</li>
+    <li>Git</li>
+</ul>
+<hr>
 
-A blue button should appear to click: _Make Public_,
+## Features
 
-Another blue button should appear to click: _Open Browser_.
+<hr>
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+### Existing Features
 
-A blue button should appear to click: _Make Public_,
+Upon loading the page, the visitor will be presented with a large modal button. This button can be interacted with by clicking it, or by pressing the Enter key. As the text on this button suggests, interacting with it will begin the game:
 
-Another blue button should appear to click: _Open Browser_.
+<img src="assets/images/screenshot-01-modal-begin-game-button-screenshot.jpg" alt="A screenshot of the begin game button.">
+<hr>
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+Once the modal button is clicked, one of the elements that will immediately stand out, despite being small, is the sound button. Right away, the visitor will notice that the page features a lot of audio. This button provides a quick, one-click way for them to mute the page if they want to.
 
-To log into the Heroku toolbelt CLI:
+<img src="assets/images/screenshot-02-sound-button-sound-on-screenshot.jpg" alt="A screenshot of the sound button in the on state.">
+<img src="assets/images/screenshot-03-sound-button-sound-off-screenshot.jpg" alt="A screenshot of the sound button in the off state.">
+<hr>
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+Also when the button is clicked, an announcer will audibly prompt the player to select a character from the left hand column, which briefly flashes green to draw the player's attention.
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+Note that on devices with smaller screen dimensions, the page will automatically scroll to the top of the character column to more fully display its contents.
 
-------
+<img src="assets/images/screenshot-04-character-select-glow-screenshot.jpg" alt="A screenshot of the glowing character selection column.">
+<hr>
 
-## Release History
+Hovering over your character of choice will trigger a small animation, play audio, and highlight it, and clicking it will cause the highlighting to turn green. At this point, selection of characters is temporarily disabled.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+<img src="assets/images/screenshot-05-hover-over-fighter-highlight-screenshot.jpg" alt="A screenshot of a character being hovered over with the mouse cursor.">
+<img src="assets/images/screenshot-06-click-fighter-highlight-screenshot.jpg" alt="A screenshot of a character having just been clicked on.">
+<hr>
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+Once the player has selected their character, there is a short delay to create suspense, and then the computer makes its choice. The same animation and sound is triggered for the character it selects. The two selected characters appear in the discs in the centre element, and both discs light up.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+When the characters populate the discs, an auto-scroll is triggered on devices with smaller screens.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+<img src="assets/images/screenshot-07-cpu-selects-character-both-appear-in-middle-screenshot.jpg" alt="A screenshot of the computer having selected its character, and both characters appearing in the middle element.">
+<hr>
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+The names of the selected characters appear in the plaques below the discs, and after a moment, the light around disc in which the winning character is set turns green to indicate that said character has won.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+<img src="assets/images/screenshot-08-names-appear-below-and-winning-character-glows-green-screenshot.jpg" alt="A screenshot showing the character names in the plaques, and one character winning the round.">
+<hr>
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+Next, one of the lights on the scoreboard will light up depending on who won, not unlike a fighting videogame. The lights on the left indicate rounds won by the player, and the lights on the right represent the same for the computer. 
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+On devices with different screen dimensions, an automatic scroll will also happen at this point to briefly show the change to the scoreboard, before scrolling back up to the characters.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+<img src="assets/images/screenshot-09-lights-turn-on-for-each-win-screenshot.jpg" alt="A screenshot of one of the round lights turning on when a round is won.">
+<hr>
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+After a moment, the game screen resets, and the player is asked to select their character again. There can be a maximum of 3 rounds, and a minimum of 2, again, just like in most fighting videogames.
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+<img src="assets/images/screenshot-10-fighters-reset-after-round-screenshot.jpg" alt="A screenshot of the game screen having been reset after a round.">
+<hr>
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+When the player or the computer is about to win their second round, the character they select will perform its finishing move. The announcer declares this, and the name of the move is briefly displayed in a small blue text box. A unique sound effect plays for each move, and each is accompanied by a screen shake.
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+<img src="assets/images/screenshot-11-fighter-uses-ultimate-attack-when-about to-win-match-screenshot.jpg" alt="A screenshot of one of the characters using their finishing move when they are about to win the match.">
+<hr>
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+The match-winning character's disc glows gold, while the match-losing character's portrait darkens. Depending on whether the player or the computer wins the match, a different sound effect is played.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+<img src="assets/images/screenshot-12-match-winner-glows-gold-and-loser-darkens-screenshot.jpg" alt="A screenshot of the match-winning character glowing gold, and the match-losing character darkening.">
+<hr>
 
-------
+Finally, another modal button appears. The text on this button reads "Play Again" rather than "Begin Game".
 
-## FAQ about the uptime script
+<img src="assets/images/screenshot-13-play-again-modal-button-appears-after-match-end-screenshot.jpg" alt="A screenshot of the 'play again' modal button that appears after a match.">
+<hr>
 
-**Why have you added this script?**
+### Features yet to be implemented
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+<strong>Character speech bubbles</strong>: I had wanted to make these appear when a character was selected, and to possibly have them contain different text depending on whether the character was selected by the player or the computer. This was a low-priority feature though, as although I had some funny ideas for it, I felt that it might be too much on top of everything else. I felt that there would be too many things competing for the player's attention, not to mention that these speech bubbles probably wouldn't display for long, unless I wanted to interrupt the flow of the game even more. Moreover, the testing process was time-consuming enough without this feature.
 
-**How will this affect me?**
+<strong>Character health meters</strong>: This was an idea that popped into my head very late on, and which I would like to add someday. I didn't feel like I had the time to implement it well.
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+<strong>Different finishing moves</strong>: I either wanted to have the computer use different finishing moves to the player, or I wanted to give the player a choice of two finishing moves per character (and have the computer randomly select from the 2 available to each character). I feel this would have added a layer of fun to the game, but as with the speech bubbles, I was concerned that it would make testing an even lengthier process.
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+<strong>Secret character(s)</strong>: I considered adding a secret character that wins against all 5 of the other characters, but I never really gave any serious thought to how I would implement it in the game. I initially had a vague idea about having the character click a specific, hidden point on the body element to select the character, but I wasn't too enthusiastic about it. I didn't give this feature all that much thought, and so no interesting ideas for how to implement it ever popped into my head.
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+<strong>Network play</strong>: This feature is almost certainly beyond my ability to implement at this stage in the course, and perhaps will still be if and when I complete it, but I would like to add a multiplayer mode to the game someday. It would of course only work if the two players couldn't see and hear one another's computers / laptops / phones, and if one player made their choice before the other one, it would have to be invisible to their opponent until they had made their choice too. 
 
-**So….?**
+<hr>
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+## Testing
 
-**Can I opt out?**
+<em>Please refer to TEST.md.</em>
+<hr>
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+## Deployment
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+The process followed in order to deploy this project to GitHub Pages was as follows:
+<ol>
+    <li>I navigated to GitHub.com and logged in to my account.</li>
+    <li>Once I was logged in, I navigated to the repository for this project.</li>
+    <li>At the page for the project repository, I entered the Settings menu.</li>
+    <li>In the Settings menu, I clicked on the Pages section in the left-hand pane.</li>
+    <li>In the Pages section, I left the Source drop-down menu set to "Deploy from a branch".</li>
+    <li>For Branch, I selected "main".</li>
+    <li>Finally, I clicked Save. After a few moments, the URL for my project went live. Please find it below.</li>
+</ol>
 
-**Anything more?**
+Live link to this project: 
+<hr>
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+## Credits
 
----
+### Code
 
-Happy coding!
+### Media
