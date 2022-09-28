@@ -39,6 +39,8 @@ h2 {
     font-size: 3rem;
 }
 
+/* Styling for all h3 elements. The use of comma separated box-shadow values, with one of them including the "inset" value, causes the h3 text
+to glow inside and out. */
 h3 {
     font-size: 2rem;
     color:#ffffff;
@@ -66,6 +68,21 @@ p {
     text-align: left;
 }
 
+/* The three rules below are important parts of a centering technique that I used across the website. These classes are called many times. The technique works by
+creating a div, setting its display to table, then nesting a div with display: table-cell within it, and then nesting a div with display: inline-block within that.
+The table-cell will perfectly center the inline-block child within itself if it (the table-cell, that is) is given text-align: center and vertical-align: middle properties. 
+Moreover, the table-cell itself must be nested within a table div for this to work. If you do not follow the pattern of table - table-cell - inline-block, a number of
+weird issues crop up. In any case, by following this pattern, you can nest and centre as many times as you want. 
+
+Often, I would set the width of the table div to a percentage, and the height to a pixel measurement. A table-cell automatically stretches to fit its container if
+that container is set to table display. Then, I would nest an inline-block in the table-cell, and give it a width of a smaller percentage to the table, or indeed
+a pixel value equivalent, as well as a smaller height. Giving the inline-block a border would reveal it to be centered perfectly within the table/table-cell.
+
+That is the basic technique, and I found it to be quite adaptable. Throughout the site, I used it to produce various different visual results, and I was successful 
+each time. 
+
+(COMMENT TAKEN FROM MY PREVIOUS PROJECT)*/
+
 .table-divs {
     display: table;
 }
@@ -81,6 +98,7 @@ p {
     display: inline-block;
 }
 
+/* Header and header children styling */
 header {
     width: 100%;
     height: 185px;
@@ -92,6 +110,7 @@ section > .table-cell-divs {
     vertical-align: top;
 }
 
+/* The use of a transparent background ensures that the button does not cover the character background image. */
 button {
     width: 200px;
     height: 100px;
@@ -125,6 +144,8 @@ button {
     height: 100%;
 }
 
+/* Styling for the sound toggle button. It is absolute relative to its parent, which has the same dimensions. This is necessary to create a button press
+animation when it is clicked. */
 #sound-button {
     width: 60px;
     height: 50px;
@@ -149,6 +170,8 @@ button {
     right: 0;
 }
 
+/* This is the styling for the modal that appears at the beginning and end of the game. It is fixed so that it follows any scrolling the player
+might do on a device such as a phone, all while keeping the button (see next rule) at the centre of the screen. */
 #play-again-container {
     position: fixed;
     z-index: 2;
@@ -193,7 +216,7 @@ button {
     height: 185px;
 }
 
-
+/* Styling for the main body of the game page */
 .main-section {
     width: 100%;
     height: 750px;
@@ -203,6 +226,7 @@ button {
     position: relative;
 }
 
+/* Styling for the left column of characters selectable by the player. */
 .fighter-containers-outer {
     width: 18%;
     height: 750px;
@@ -215,6 +239,7 @@ button {
     background-size: 100% 100%;
 }
 
+/* The use of a linear gradient in this rule creates the "hot metal" look. */
 .fighter-containers-inner {
     width: 100%;
     height: 750px;
@@ -228,6 +253,7 @@ button {
     vertical-align: bottom;
 }
 
+/* Styling for the inner div that contains the selectable characters. The use of a bright border and a red box shadow creates a laser-like visual. */
 .fighter-boxes-outer {
     width: 200px;
     height: 680px;
@@ -255,6 +281,8 @@ button {
     margin-bottom: 10px;
 }
 
+/* This rule ensures that the background image of this element's child div does not overflow. It is contained within the parallelogram.
+The transform property's degree value creates the parallelogram appearance.*/
 .player-fighters {
     transform: skewX(40deg);
 
@@ -270,6 +298,10 @@ button {
     position: absolute;
 }
 
+/* The degree value of the transform property ensures that the portrait image is not skewed by its parent container, and retains its
+orientation.
+
+The position property is necessary to make the subject of each portrait properly visible and within the skewed frame.*/
 .player-portraits {
     transform: skewX(320deg);
 
@@ -315,6 +347,7 @@ button {
     text-align: right;
 }
 
+/* The use of scaleX here flips the portraits of the CPU's characters so that they are visually symmetrical with the player's characters. */
 .cpu-portraits {
     transform: skewX(40deg) scaleX(-1);
     
@@ -322,7 +355,9 @@ button {
 }
 
 
-
+/* Styling for the middle section where the fights occur, and where the score is tracked. Setting the background-size property in this way ensures
+that the background image will resize as the window does. Ordinarily, this creates stretched or squashed visuals, but this is less noticeable
+in this case, because the background image doesn't contain many distinct shapes.*/
 .bout-and-scoreboard-container-outer {
     width: 60%;
     height: 700px;
@@ -430,6 +465,12 @@ button {
     letter-spacing: 2px;
 }
 
+
+/* Styling for the hidden finisher move message box that appears when the match is about to be won.
+The use of percentages for both the left and right position properties has a rough centering effect.
+It suspends the element in the middle of its parent, albeit slightly shakily.
+
+This element's display is initially set to none, but this is later temporarily changed using JavaScript.*/
 #ultimate-finisher-message-container {
     position: absolute;
     z-index: 2;
@@ -475,7 +516,7 @@ button {
     text-shadow: 2px 2px #444444;
 }
 
-
+/* Styling for the scoreboard portion of the central section. */
 .scoreboard-box-outer {
     width: 60%;
     height: 240px;
@@ -523,6 +564,8 @@ button {
     height: 90px;
 }
 
+/* The image used for the lamps is square, but by having it's container be circular and not permitting of overflow, the illusion that the
+image itself is circular is achieved. */
 .round-lamps {
     width: 90px;
     height: 90px;
@@ -715,6 +758,11 @@ button {
     }
 }
 
+/* Rather than squash the fire backdrop as the viewport width decreases, I changed it to a version of the image
+that has different dimensions so that a more interesting segment of it is captured, and serves as the backdrop
+for narrower screens.
+
+This occurs one more time at a narrower width.*/
 @media screen and (max-width: 928px) {
     body {
         background: url(../images/fire-bigger.jpg) no-repeat center center;
@@ -917,6 +965,9 @@ button {
     }
 }
 
+/* I used a media query like this in my previous project. It ensures that the page doesn't look bizarre when you zoom out in your browser window.
+The widths become fixed values rather than percentages. because as percentages, they stretch across the screen when the viewport width increases
+with the zoom.*/
 @media screen and (min-width: 1920px) {
     body {
         text-align: center;
