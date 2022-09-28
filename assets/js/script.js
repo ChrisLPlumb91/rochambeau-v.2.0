@@ -28,6 +28,10 @@ beginGameButton.focus();
 
 soundButton.addEventListener('click', toggleMute);
 
+/**
+ *  Causes the start game button to animate if it is clicked or if the Enter key is pressed.
+ *  The click and keydown listeners are removed to avoid multiple interactions with the button.
+ */
 function animateButton(event) {
     event.preventDefault();
     
@@ -39,15 +43,28 @@ function animateButton(event) {
         START_GAME.play();
         this.animate(BUTTON_CLICK_KEYFRAMES, BUTTON_CLICK_ANIMATION);
         playAgainText.animate(BUTTON_TEXT_SHRINK_KEYFRAMES, BUTTON_TEXT_SHRINK_ANIMATION);
-    
-        setTimeout(clearPlayAgain, 600);
-        setTimeout(beginGame, 800);
 
         beginGameButton.removeEventListener('click', animateButton);
         beginGameButton.removeEventListener('keydown', animateButton);
+    
+        setTimeout(clearPlayAgain, 600);
+        setTimeout(beginGame, 800);    
     }
 }
 
+/**
+ * Clears the begin game modal button from the screen so that the player can begin playing the game.
+ */
+function clearPlayAgain() {
+    let playAgainScreen = document.getElementById('play-again-container');
+
+    playAgainScreen.style.display = 'none';
+}
+
+/**
+ * Animates the sound toggle button when it is clicked. Depending on the state of the global variable soundOn,
+ * a different animation plays, and the sound across the site is muted or unmuted.
+ */
 function toggleMute() {
     if (soundOn) {
         SOUND_BUTTON.play();
@@ -78,6 +95,11 @@ function toggleMute() {
     }
 }
 
+/**
+ * Prompts the player to select a character from the left hand column.
+ * For smaller viewports, this function scrolls down automatically to more fully display said column.
+ * 
+ */
 function beginGame(event) {   
     if (event !== undefined) {
         event.preventDefault();
@@ -123,10 +145,18 @@ function beginGame(event) {
     } 
 }
 
+/**
+ * This very small function was created to enable the delaying of the setting of the eventListenerAttached variable.
+ * This is part of an imperfect solution to an audiovisual bug that I will describe below.
+ */
 function setEventListenerAttachedTrue() {
     eventListenerAttached = true;
 }
 
+/**
+ * This function assigns mouse click listeners to the various components of the character listeners in the left column.
+ * This code was separated into its own function so that I could delay it using setTimeout in the beginGame function.
+ */
 function initialClickListenersAttach() {
     let portraitFrames = document.getElementsByClassName('player-fighters');
     let portraits = document.getElementsByClassName('player-portraits');
@@ -145,6 +175,10 @@ function initialClickListenersAttach() {
     }   
 }
 
+/**
+ * This function is triggered when the player clicks their character of choice. It hides the buttons that trigger it so that the player
+ * cannot trigger it again, or select another character. It also selects the computer's character and displays it.
+ */
 function selectionPhase(event) {
     event.preventDefault();
 
@@ -179,6 +213,14 @@ function selectionPhase(event) {
     }   
 } 
 
+/**
+ * This function is called when the player hovers over a character during the selection phase.
+ * It causes the frame of the portrait to change from a parallelogram to a rectangle,
+ * and makes it glow neon red.
+ * 
+ * The code in the else block is intended to cover the possibility of the player leaving the mouse cursor hovering
+ * over their selection while the round plays out. More on this below.
+ */
 function removeFrameSlantIn(event) {  
     event.preventDefault();
     
@@ -196,6 +238,12 @@ function removeFrameSlantIn(event) {
     portraitFrame.style.boxShadow = '0 0 32px #ff002bf8';
 }
 
+/**
+ * Changes the frame of a character portrait back into a parallelogram when the player moves
+ * the mouse cursor outside of the frames boundaries.
+ * 
+ * The if statement is part of my imperfect solution to the audiovisual bug that I mentioned above.
+ */
 function restoreFrameSlantOut(event) {
     event.preventDefault();
 
@@ -210,6 +258,12 @@ function restoreFrameSlantOut(event) {
         MOUSEOUT_SWISH.play();
     }
 }
+
+/**
+ * Changes the neon red light of a character frame to neon green when it is clicked.
+ * After changing this visual, the listener is removed from each button so that it
+ * cannot be triggered again until it is re-attached.
+ */
 
 function clickChangeColor(event) {
     event.preventDefault();
@@ -229,6 +283,10 @@ function clickChangeColor(event) {
     }
 }
 
+/**
+ * Ensures that the frame stays rectangular if and when the player moves the cursor beyond the boundaries of the frame
+ * after having selected their character. In other words, the character remains "selected", visually.
+ */
 function selectionRetainFrameShapeOut(event) {
     event.preventDefault();
     
@@ -240,11 +298,21 @@ function selectionRetainFrameShapeOut(event) {
     mouseIn = false;
 }
 
+/**
+ * This is an event handler function that sets mouseIn to true so long as the player keeps their mouse cursor
+ * over their selection during the combat phase. This global variable is used to make a number of decisions later on.
+ */
 function mouseHoverCheck() {
     mouseIn = true;
 }
 
-
+/**
+ * As the actual character images are the background images of nested containers, they follow their parent container
+ * when it changes shape. This event handler function ensures they retain their orientation when their parent
+ * container becomes rectangular.
+ * 
+ * The else block serves the same purpose as the one in the removeFrameSlantIn function.
+ */
 function retainImageAngleIn(event) {
     event.preventDefault();
 
@@ -260,6 +328,9 @@ function retainImageAngleIn(event) {
     portrait.style.boxShadow = '0 0 32px #ff002bf8 inset';
 }
 
+/**
+ * This reverts the image back to its original orientation when you move the cursor beyond its boundaries, ensuring visual continuity.
+ */
 function retainImageAngleOut(event) {
     event.preventDefault();
 
@@ -269,6 +340,11 @@ function retainImageAngleOut(event) {
     portrait.style.boxShadow = 'none';
 }
 
+/**
+ * Triggers a small zoom in-zoom-out animation when the picture is clicked, adding another layer of visual feedback to the interaction.
+ * 
+ * It also removes the initial mouseover and mouseout listeners and replaces the mouseout one with selectionRetainImageShapeOut. 
+ */
 function clickSwellPortrait(event) {
     event.preventDefault();
     
@@ -288,6 +364,10 @@ function clickSwellPortrait(event) {
     }
 }
 
+/**
+ * Ensures that the image orientation does not change when you move the cursor outside of it. This does for the image 
+ * what selectionRetainFrameShapeOut does for the frame.
+ */
 function selectionRetainImageShapeOut(event) {
     event.preventDefault();
     
@@ -297,7 +377,10 @@ function selectionRetainImageShapeOut(event) {
     portrait.style.right = '-20px';
 }
 
-
+/**
+ * When called, this function plays the appropriate audio for the character you or the computer selected.
+ * It is a separate function so that it can be called with a time delay using setTimeout.
+ */
 function playSelectionAudio(selection) {
     switch(selection) {
         case 'rock':
@@ -318,6 +401,11 @@ function playSelectionAudio(selection) {
     }
 }
 
+/**
+ * Uses random number generation to randomly select the computer's character. It returns an object with a property 
+ * the value of which is the character's index in the HTMLCollection stored in cpuFighters. The property itself
+ * takes its name from the id of a given cpu-portrait element.
+ */
 function cpuSelect() {
     let cpuFighters = document.getElementsByClassName('cpu-portraits');
     
@@ -330,11 +418,18 @@ function cpuSelect() {
     return cpuNumberAndName;
 }
 
+/**
+ * Plays a drum sound effect. Separated into its own function so that it can be delayed using setTimeout.
+ */
 function playDrum() {
     DRUM.volume = 1;
     DRUM.play();
 }
 
+/**
+ * Depending on the state of the roundNumber variable, this function plays different audio announcing the current round.
+ * Again, this is its own function so that it can be delayed.
+ */
 function roundAudio(roundNumber) {
     switch(roundNumber) {
         case 1:
@@ -349,6 +444,10 @@ function roundAudio(roundNumber) {
     }
 }
 
+/**
+ * This function is called when the computer's choice of character has been determined. It visually changes the portrait
+ * of the cpu's chosen character in the same way that clicking changes the player's selection.
+ */
 function cpuSelectVisual(cpuSelection) {
     let cpuPortraitFrames = document.getElementsByClassName('cpu-fighters');
     let cpuPortraits = document.getElementsByClassName('cpu-portraits');
@@ -371,6 +470,10 @@ function cpuSelectVisual(cpuSelection) {
     cpuPortraits[cpuFighterNumber].style.boxShadow = '0 0 32px #00ff80f8 inset';
 }
 
+/**
+ * Sets the two chosen characters in the slots in the middle of the page, and also displays their names in the plaques
+ * below the portraits.
+ */
 function setContenders(playerSelection, cpuSelection) {
     ELECTRIC_SFX.volume = 0.5;
     
@@ -412,6 +515,11 @@ function setContenders(playerSelection, cpuSelection) {
     setTimeout(declareVictor, 1000, playerSelection, cpuSelection);
 }
 
+/**
+ * Determines the outcome of a round based on the selections made by the player and the computer.
+ * Also determines whether a character is about the win the match, and prepares to play the audio 
+ * for their finishing move.
+ */
 function declareVictor(playerSelection, cpuSelection) {
     let win = null;
     let draw = false;
@@ -553,6 +661,15 @@ function declareVictor(playerSelection, cpuSelection) {
     }
 }
 
+/**
+ * For any given round, this function triggers a visual change depending on who won and who lost.
+ * The winner's outline becomes neon green and their image swells, while the loser's inset box shadow
+ * grows. The value of the playerWins and cpuWins variables are also incremented accordingly.
+ * 
+ * This function also shows a specific visual change if the outcome is a draw.
+ * 
+ * Finally, it calls the endGame method if the match has been won.
+ */
 function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
     let playerContenderPortrait = document.getElementById('player-contender');
     let cpuContenderPortrait = document.getElementById('cpu-contender');
@@ -606,6 +723,11 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
     }        
 }
 
+/**
+ * This function illuminates a lamp on the left side of the scoreboard in response to the player winning a round.
+ * 
+ * It is also called at the end of a match to switch off any player lamps that are on.
+ */
 function lightPlayerLamps() {
     let roundLampsPlayer = document.getElementsByClassName('round-lamps-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
@@ -645,6 +767,11 @@ function lightPlayerLamps() {
     }   
 }
 
+/**
+ * This function illuminates a lamp on the right side of the scoreboard in response to the computer winning a round.
+ * 
+ * It is also called at the end of a match to switch off any computer lamps that are on.
+ */
 function lightCpuLamps() {
     let roundLampsCpu = document.getElementsByClassName('round-lamps-cpu');
     let roundLightCpu = document.getElementsByClassName('light-off-cpu');
@@ -672,6 +799,11 @@ function lightCpuLamps() {
     }
 }
 
+/**
+ * Prepares the game for the next round. Removes the portraits from the centre slots, as well their names from the plaques.
+ * And also re-attaches the initial event listeners to the characters in the left and right columns, and visually resets them. 
+ * It increments the round number variable if necessary.
+ */
 function prepareForNextRound(playerSelection, cpuSelection, draw) {
     let header = document.getElementsByTagName('header');
 
@@ -806,6 +938,12 @@ function prepareForNextRound(playerSelection, cpuSelection, draw) {
     setTimeout(unhideButtons, 4100);
 }
 
+
+/**
+ * Sets the display property of the character buttons to initial so that they can be clicked on again. This function
+ * is called at the end of the prepareForNextRound function. It is delayed to prevent the player from being able
+ * to click the buttons too soon.
+ */
 function unhideButtons() {
     let playerPortraitFrames = document.getElementsByClassName('player-fighters');
     let playerPortraits = document.getElementsByClassName('player-portraits');
@@ -825,56 +963,10 @@ function unhideButtons() {
     }
 }
 
-function endGame() {
-    let boutContainer = document.getElementById('bout-and-scoreboard-container-outer');
-    
-    let playerContenderPortrait = document.getElementById('player-contender');
-    let cpuContenderPortrait = document.getElementById('cpu-contender');
-
-    if (playerWins === 2) {
-        playerContenderPortrait.style.border = '4px solid #fff2b5';
-        playerContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffbb3b inset';
-        playerContenderPortrait.animate(WINNER_PORTRAIT_GLOW_KEYFRAMES, WINNER_PORTRAIT_GLOW_ANIMATION);
-
-        cpuContenderPortrait.style.border = '3px solid #444444';
-        cpuContenderPortrait.animate(LOSER_PORTRAIT_DARKEN_KEYFRAMES, LOSER_PORTRAIT_DARKEN_ANIMATION);
-        cpuContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
-        
-        cpuKO = true;
-
-        VICTORY_STING.play();
-        setTimeout(playFinalOutcomeSound, 1000);
-    } else {
-        cpuContenderPortrait.style.border = '4px solid #fff2b5';
-        cpuContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffb13b inset';
-        cpuContenderPortrait.animate(WINNER_PORTRAIT_GLOW_KEYFRAMES, WINNER_PORTRAIT_GLOW_ANIMATION);
-
-        playerContenderPortrait.style.border = '3px solid #444444';
-        playerContenderPortrait.animate(LOSER_PORTRAIT_DARKEN_KEYFRAMES, LOSER_PORTRAIT_DARKEN_ANIMATION);
-        playerContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
-        
-        playerKO = true;
-
-        DEFEAT_STING.volume = 0.8;
-        DEFEAT_STING.play();
-        setTimeout(playFinalOutcomeSound, 1000);
-    }
-
-    if (window.innerWidth <= 1110) {
-        boutContainer.scrollIntoView({behavior: 'smooth'});
-    }
-
-    setTimeout(displayPlayAgain, 3000);
-}
-
-function playFinalOutcomeSound() {
-    if (cpuKO) {
-        VICTORIOUS.play();
-    } else if (playerKO) {
-        DEFEATED.play();
-    }
-}
-
+/**
+ * Plays a different unique sound effect depending on which character wins the match for the player or the computer. 
+ * It also shakes the screen while this sound effect is playing, and roughly for the same amount of time as said sound effect.
+ */
 function playFinisherSfx(playerSelection, cpuSelection) {
     let finisherMessageContainer = document.getElementById('ultimate-finisher-message-container');
     let finisherMessage = document.getElementById('ultimate-finisher-message');
@@ -932,6 +1024,68 @@ function playFinisherSfx(playerSelection, cpuSelection) {
     }
 }
 
+/**
+ * The first thing this function does is highlight the winner of the match with a glowing neon gold colour.
+ * It also darkens the portrait of the loser. After this, it calls the function that displays the play again
+ * modal button on the screen.
+ */
+function endGame() {
+    let boutContainer = document.getElementById('bout-and-scoreboard-container-outer');
+    
+    let playerContenderPortrait = document.getElementById('player-contender');
+    let cpuContenderPortrait = document.getElementById('cpu-contender');
+
+    if (playerWins === 2) {
+        playerContenderPortrait.style.border = '4px solid #fff2b5';
+        playerContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffbb3b inset';
+        playerContenderPortrait.animate(WINNER_PORTRAIT_GLOW_KEYFRAMES, WINNER_PORTRAIT_GLOW_ANIMATION);
+
+        cpuContenderPortrait.style.border = '3px solid #444444';
+        cpuContenderPortrait.animate(LOSER_PORTRAIT_DARKEN_KEYFRAMES, LOSER_PORTRAIT_DARKEN_ANIMATION);
+        cpuContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
+        
+        cpuKO = true;
+
+        VICTORY_STING.play();
+        setTimeout(playFinalOutcomeSound, 1000);
+    } else {
+        cpuContenderPortrait.style.border = '4px solid #fff2b5';
+        cpuContenderPortrait.style.boxShadow = '0 0 32px #ffb13b, 0 0 32px #ffb13b inset';
+        cpuContenderPortrait.animate(WINNER_PORTRAIT_GLOW_KEYFRAMES, WINNER_PORTRAIT_GLOW_ANIMATION);
+
+        playerContenderPortrait.style.border = '3px solid #444444';
+        playerContenderPortrait.animate(LOSER_PORTRAIT_DARKEN_KEYFRAMES, LOSER_PORTRAIT_DARKEN_ANIMATION);
+        playerContenderPortrait.style.boxShadow = '0 0 32px #000000bb, 0 0 128px #000000dd inset';
+        
+        playerKO = true;
+
+        DEFEAT_STING.volume = 0.8;
+        DEFEAT_STING.play();
+        setTimeout(playFinalOutcomeSound, 1000);
+    }
+
+    if (window.innerWidth <= 1110) {
+        boutContainer.scrollIntoView({behavior: 'smooth'});
+    }
+
+    setTimeout(displayPlayAgain, 3000);
+}
+
+/**
+ * Used in the endGame function, this function plays the voice clip that tells the player whether they won or lost the match.
+ * As with many of the other functions, this was separated so that it could be called using setTimeout.
+ */
+function playFinalOutcomeSound() {
+    if (cpuKO) {
+        VICTORIOUS.play();
+    } else if (playerKO) {
+        DEFEATED.play();
+    }
+}
+
+/**
+ * Displays the play again modal button once a match has ended.
+ */
 function displayPlayAgain() {
     let playAgainScreen = document.getElementById('play-again-container');
     let playAgainButton = document.getElementById('play-again-button');
@@ -945,6 +1099,11 @@ function displayPlayAgain() {
     playAgainButton.focus();
 }
 
+/** Resets much of the game's variables to their original state, and makes the play again modal button interactive
+ * in the same way as the begin game button that appears at the game's outset.
+ * 
+ * It calls the prepareForNextRound function to reset a number of other elements, rather than duplicating that function's code.
+ */
 function playAgain (event) {
     event.preventDefault();
 
@@ -983,10 +1142,4 @@ function playAgain (event) {
     }  
     
     return false;
-}
-
-function clearPlayAgain() {
-    let playAgainScreen = document.getElementById('play-again-container');
-
-    playAgainScreen.style.display = 'none';
 }
