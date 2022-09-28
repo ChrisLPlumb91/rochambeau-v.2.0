@@ -729,6 +729,7 @@ function highlightWinner(winOrLose, playerSelection, cpuSelection, draw) {
  * It is also called at the end of a match to switch off any player lamps that are on.
  */
 function lightPlayerLamps() {
+    let scoreboard = document.getElementById('scoreboard');
     let roundLampsPlayer = document.getElementsByClassName('round-lamps-player');
     let roundLightPlayer = document.getElementsByClassName('light-off-player');
 
@@ -1093,7 +1094,8 @@ function displayPlayAgain() {
     playAgainButton.addEventListener('click', playAgain);
     playAgainButton.addEventListener('keydown', playAgain);
     
-    playAgainButton.innerHTML = `<h4 id="play-again-button-text">PLAY <br>AGAIN</h4>`;
+    playAgainButton.innerHTML = `<span id="play-again-button-text">PLAY <br>AGAIN</span>`;
+
     playAgainScreen.style.display = 'table';
 
     playAgainButton.focus();
@@ -1122,11 +1124,10 @@ function playAgain (event) {
 
         let playerNameplate = document.getElementById('player-nameplate');
         let cpuNameplate = document.getElementById('cpu-nameplate');
+        let playAgainText = document.getElementById('play-again-button-text');
 
         let playerSelection = playerNameplate.innerText;
         let cpuSelection = cpuNameplate.innerText;
-
-        let playAgainText = document.getElementById('play-again-button-text');
 
         START_GAME.volume = 0.6;
         START_GAME.play();
